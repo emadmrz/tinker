@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\UserRegistered;
 use App\User;
+use Illuminate\Support\Facades\Event;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -49,7 +51,8 @@ class AuthController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|confirmed|min:6',
         ]);
@@ -63,10 +66,14 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
+        $newUser= User::create([
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'confirmation_code' => str_random(20),
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+        Event::fire(new UserRegistered($newUser));
+        return $newUser;
     }
 }
