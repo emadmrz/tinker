@@ -56,4 +56,9 @@ Route::group(['middleware' => 'web'], function () {
      */
     Route::get('/',['as'=>'index','uses'=>'IndexController@index']);
 
+    Route::group(['prefix'=>'profile','as'=>'profile.','middleware'=>['auth','email']],function(){
+        Route::get('/',['as'=>'me','uses'=>'ProfileController@index']);
+        Route::post('/store',['as'=>'store','uses'=>'ProfileController@store']);
+    });
+
 });

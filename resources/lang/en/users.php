@@ -6,5 +6,6 @@ return[
     'unconfirmedUser'=>'Not Confirmed',
     'activeUser'=>'Active',
     'deactivedUser'=>'Deactived',
-    'confirmationEmailResended'=>'ارسال مجدد ایمیل فعال سازی'
+    'confirmationEmailResended'=>'ارسال مجدد ایمیل فعال سازی',
+    'profileUpdated'=>'پروفایل با موفقیت ویرایش گردید.'
 ];
