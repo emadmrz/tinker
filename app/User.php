@@ -2,17 +2,20 @@
 
 namespace App;
 
+
+use App\Repositories\ShamsiTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
+    use ShamsiTrait;
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'first_name','last_name','active','confirmed','confirmation_code','image', 'email', 'password',
     ];
 
     /**
@@ -23,4 +26,40 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function getFullNameAttribute(){
+        return $this->attributes['first_name']." ".$this->attributes['last_name'];
+    }
+
+    /**
+     * Created By Dara on 1/2/2016
+     * get avatar attribute
+     */
+    public function getAvatarAttribute(){
+        if(is_null($this->attributes['image'])){
+            return 'user-default-avatar.jpg';
+        }else{
+            return $this->attributes['image'];
+        }
+    }
+
+    /**
+     * Created By Dara on 1/2/2016
+     * user active status and email confirmation status
+     */
+    public function getUserConfirmStatus(){
+        $status=[
+            0=>['name'=>trans('users.unconfirmedUser'),'type'=>'danger'],
+            1=>['name'=>trans('users.confirmedUser'),'type'=>'success']
+        ];
+        return $status[$this->attributes['confirmed']];
+    }
+
+    public function getUserActiveStatus(){
+        $status=[
+            0=>['name'=>trans('users.activeUser'),'type'=>'danger'],
+            1=>['name'=>trans('users.deactivedUser'),'type'=>'success']
+        ];
+        return $status[$this->attributes['active']];
+    }
 }
