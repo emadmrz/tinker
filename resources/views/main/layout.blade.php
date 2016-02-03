@@ -37,14 +37,16 @@
             </aside>
             <div class="main">
                 <div class="col-sm-8">
+                    <div class="alerts-box">
+                        @if($errors->any())
+                            <ul class="alert alert-danger">
+                                @foreach($errors->all() as $error)
+                                    <li>{{$error}}</li>
+                                @endforeach
+                            </ul>
+                        @endif
+                    </div>
 
-                    @if($errors->any())
-                        <ul class="alert alert-danger">
-                            @foreach($errors->all() as $error)
-                                <li>{{$error}}</li>
-                            @endforeach
-                        </ul>
-                    @endif
 
                     @include('flash::message')
 

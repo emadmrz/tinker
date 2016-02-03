@@ -11,6 +11,7 @@
     8 - Register && Login Page
     9 - Comments
     10 - Articles
+    11 - profile
     8 - Media Queries
 
 */
@@ -68,6 +69,9 @@ i.fa{
     padding: 10px;
     border: 1px solid #DDDDDD;
     border-radius: 3px;
+}
+label.control-label{
+    text-align: right !important;
 }
 
 /*----------------------------- 2 - Header -------------------------------*/
@@ -676,6 +680,10 @@ input[type=checkbox] {
     list-style: none;
 }
 
+li.login i.fa-power-off{
+    color: #ff685d;
+}
+
 /*----------------------------- 9 - Comments -------------------------------*/
 .comment-container {
 
@@ -945,6 +953,9 @@ article.post .media .media-right.media-full-image .menu-object {
 @media only screen and (max-width: 320px) {
 
 }
+
+/*----------------------------- 11 - Profile -------------------------------*/
+
 
 /*--------------------------Added By Emad-----------------------*/
 .direct-login {

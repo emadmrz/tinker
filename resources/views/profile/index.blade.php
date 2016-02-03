@@ -1,0 +1,10 @@
+@extends('main.layout')
+@section('aside')
+    @include('main.partials.sessions')
+@endsection
+@section('content')
+    @include('profile.partials.userStatus')
+    @include('profile.partials.editForm')
+@endsection
+@section('script')
+@endsection

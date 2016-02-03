@@ -19,6 +19,24 @@
                 <li><a href="#">درباره ما</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-left left-menu">
+                @can('login')
+                <li class="login">
+                    <a href="{{url('/profile')}}">
+                        <button class="btn btn-xs btn-learn register">
+                            <i class="fa fa-user"></i>
+                            پنل کاربری
+                        </button>
+                    </a>
+                </li>
+                <li class="login">
+                    <a href="{{url('/logout')}}">
+                        <button class="btn btn-xs btn-default login">
+                            <i class="fa fa-power-off"></i>
+                            خروج
+                        </button>
+                    </a>
+                </li>
+                @else
                 <li class="register">
                     <a href="{{url('/register')}}">
                         <button class="btn btn-xs btn-learn register">
@@ -27,14 +45,15 @@
                         </button>
                     </a>
                 </li>
-                <li class="login">
-                    <a href="{{url('/login')}}">
-                        <button class="btn btn-xs btn-default login">
-                            <i class="fa fa-user"></i>
-                            ورود به سایت
-                        </button>
-                    </a>
-                </li>
+                    <li class="login">
+                        <a href="{{url('/login')}}">
+                            <button class="btn btn-xs btn-default login">
+                                <i class="fa fa-user"></i>
+                                ورود به سایت
+                            </button>
+                        </a>
+                    </li>
+                @endcan
             </ul>
         </div>
     </div>
