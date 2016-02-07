@@ -76,7 +76,7 @@ Route::group(['middleware' => 'web'], function () {
 
         /**
          * Created By Dara on 4/2/2016
-         * Article management
+         * Article management (admin) add/edit
          */
         Route::group(['prefix'=>'article','as'=>'article.'],function(){
             Route::get('create',['as'=>'create','uses'=>'ArticleController@create']);
@@ -85,11 +85,19 @@ Route::group(['middleware' => 'web'], function () {
             Route::delete('delete',['as'=>'delete','uses'=>'ArticleController@delete']);
             Route::get('edit/{article}',['as'=>'edit','uses'=>'ArticleController@edit']);
             Route::post('edit/{article}',['as'=>'update','uses'=>'ArticleController@update']);
-
-
         });
 
 
+
+
+    });
+    /**
+     * Created By Dara on 6/2/2015
+     * Article management (main) show
+     */
+    Route::group(['prefix'=>'article','as'=>'article.'],function(){
+        Route::get('/',['as'=>'index','uses'=>'ArticleController@index']);
+        Route::get('/{article}',['as'=>'show','uses'=>'ArticleController@show']);
     });
 
 });

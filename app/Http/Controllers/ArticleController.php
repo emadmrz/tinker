@@ -16,7 +16,12 @@ class ArticleController extends Controller
 {
     public function index()
     {
+        $articles=Article::where('published',1)->get();
+        return view('article.index',compact('articles'))->with(['title'=>'مقالات']);
+    }
 
+    public function show(Article $article){
+        return view('article.show',compact('article'))->with(['title'=>$article->title]);
     }
 
     /**

@@ -1,8 +1,5 @@
 /vendor
-/node_modules
-Homestead.yaml
-Homestead.json
-.env
 .idea
-/public/video
-/public/images/files/
+.env
+/public/images/files
+/public/video/

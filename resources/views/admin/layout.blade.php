@@ -407,6 +407,8 @@
 <!-- Custom Theme JavaScript -->
 <script src="{{asset('admin/js/sb-admin-2.js')}}"></script>
 
+<script src="{{asset('admin/js/admin.js')}}"></script>
+
 @yield('script')
 
 </body>
