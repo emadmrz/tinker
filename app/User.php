@@ -62,4 +62,8 @@ class User extends Authenticatable
         ];
         return $status[$this->attributes['active']];
     }
+
+    public function articles(){
+        return $this->hasMany('App\Article');
+    }
 }
