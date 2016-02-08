@@ -20,7 +20,7 @@
     <!--navbar ends-->
 
     <!--main header begins-->
-    @include('partials.mainHeader')
+    {{--@include('partials.mainHeader')--}}
     <!--main header ends-->
 
 </header>
