@@ -98,6 +98,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::group(['prefix'=>'article','as'=>'article.'],function(){
         Route::get('/',['as'=>'index','uses'=>'ArticleController@index']);
         Route::get('/{article}',['as'=>'show','uses'=>'ArticleController@show']);
+        Route::post('/{article}/comment',['as'=>'comment.store','uses'=>'CommentController@store']);
     });
 
 });

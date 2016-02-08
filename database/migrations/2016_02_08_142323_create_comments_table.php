@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateArticlesTable extends Migration
+class CreateCommentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,17 +12,14 @@ class CreateArticlesTable extends Migration
      */
     public function up()
     {
-        Schema::create('articles', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('title');
-            $table->longText('content');
-            $table->integer('num_visit')->unsigned()->default(0);
+            $table->text('content');
+            $table->morphs('parentable');
             $table->integer('num_like')->unsigned()->default(0);
-            $table->integer('num_comment')->unsigned()->default(0);
-            $table->string('image');
-            $table->boolean('published');
+            $table->integer('num_dislike')->unsigned()->default(0);
             $table->boolean('active')->default(1);
             $table->timestamps();
         });
@@ -35,6 +32,6 @@ class CreateArticlesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('articles');
+        Schema::drop('comments');
     }
 }

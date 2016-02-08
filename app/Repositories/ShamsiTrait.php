@@ -21,6 +21,13 @@ trait ShamsiTrait
         return jDate::forge($this->attribute['updated_at'])->format('Y/m/d');
     }
 
+    public function getDayShamsiCreatedAtAttribute(){
+        return jDate::forge($this->attribute['created_at'])->format('l d F Y');
+    }
+    public function getDayShamsiUpdatedAtAttribute(){
+        return jDate::forge($this->attribute['updated_at'])->format('');
+    }
+
     public function getHumanShamsiCreatedAtAttribute(){
         return jDate::forge($this->attributes['created_at'])->ago();
     }

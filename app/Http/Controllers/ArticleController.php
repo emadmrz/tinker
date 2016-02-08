@@ -21,7 +21,11 @@ class ArticleController extends Controller
     }
 
     public function show(Article $article){
-        return view('article.show',compact('article'))->with(['title'=>$article->title]);
+        $num_comments=$article->comments()->count();
+        return view('article.show',compact('article'))->with([
+            'title'=>$article->title,
+            'num_comments'=>$num_comments
+        ]);
     }
 
     /**

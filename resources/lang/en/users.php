@@ -7,5 +7,6 @@ return[
     'activeUser'=>'Active',
     'deactivedUser'=>'Deactived',
     'confirmationEmailResended'=>'ارسال مجدد ایمیل فعال سازی',
-    'profileUpdated'=>'پروفایل با موفقیت ویرایش گردید.'
+    'profileUpdated'=>'پروفایل با موفقیت ویرایش گردید.',
+    'commentSent'=>'نظر شما با موفقیت ثبت گردید .'
 ];
