@@ -16,6 +16,7 @@ class CreateCommentsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('parent_id')->unsigned()->default(null);
             $table->text('content');
             $table->morphs('parentable');
             $table->integer('num_like')->unsigned()->default(0);

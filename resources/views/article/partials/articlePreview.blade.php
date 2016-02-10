@@ -45,7 +45,7 @@
                     </li>
                     <li class="category">
                         <i class="fa fa-comment"></i>
-                        <a href="#">{{$num_comments}} دیدگاه</a>
+                        <a href="#"><span class="num_comment">{{$num_comments}}</span> دیدگاه</a>
                     </li>
                 </ul>
             </div>
@@ -93,7 +93,9 @@
                         <!--each comment ends-->
 
                         <!--comment form begins-->
+                        @can('login')
                         @include('article.partials.commentForm')
+                        @endcan
                         <!--comment form ends-->
                     </ul>
                     <!--all comments ends-->

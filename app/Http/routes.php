@@ -98,7 +98,16 @@ Route::group(['middleware' => 'web'], function () {
     Route::group(['prefix'=>'article','as'=>'article.'],function(){
         Route::get('/',['as'=>'index','uses'=>'ArticleController@index']);
         Route::get('/{article}',['as'=>'show','uses'=>'ArticleController@show']);
-        Route::post('/{article}/comment',['as'=>'comment.store','uses'=>'CommentController@store']);
+    });
+
+    /**
+     * Created By Dara on 10/2/2016
+     * ajax requests on submit
+     */
+    Route::group(['prefix'=>'ajax','as'=>'ajax.','middleware'=>['ajax','auth']],function(){
+        Route::group(['prefix'=>'article','as'=>'article.'],function(){
+            Route::post('/{article}/comment/{comment_id}/store',['as'=>'comment.store','uses'=>'CommentController@article']);
+        });
     });
 
 });
