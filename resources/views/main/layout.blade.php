@@ -3,9 +3,11 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>{{$title}}</title>
+    <meta name="csrf-token" content="{{csrf_token()}}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link type="text/css" rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
     <link type="text/css" rel="stylesheet" href="{{asset('css/bootstrap-rtl.css')}}">
+    <link type="text/css" rel="stylesheet" href="{{asset('css/animate.css')}}">
     <link type="text/css" rel="stylesheet" href="{{asset('css/style.css')}}">
     <link type="text/css" rel="stylesheet" href="{{asset('css/font.css')}}">
     <link type="text/css" rel="stylesheet" href="{{asset('css/font-awesome.min.css')}}">
@@ -60,6 +62,7 @@
 
 <script src="{{asset('js/jquery.js')}}"></script>
 <script src="{{asset('js/bootstrap.min.js')}}"></script>
+<script src="{{asset('js/bootstrap-notify.js')}}"></script>
 <script src="{{asset('js/typed.js')}}"></script>
 <script>
     $(function(){
@@ -71,7 +74,29 @@
             contentType: 'html'
         });
     });
+
+    /**
+     * Created By Dara on 8/2/2016
+     * register notify messages
+     */
+    $.notifyDefaults({
+        delay: 5000,
+        timer: 100,
+        offset: {
+            x: 10,
+            y:20
+        },
+        placement: {
+            from: "bottom",
+            align: "right"
+        },
+        animate: {
+            enter: 'animated fadeInRight',
+            exit: 'animated fadeOutRight'
+        }
+    });
 </script>
+<script src="{{asset('js/profile.js')}}"></script>
 @yield('script')
 </body>
 </html>

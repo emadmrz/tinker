@@ -100,4 +100,14 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/{article}',['as'=>'show','uses'=>'ArticleController@show']);
     });
 
+    /**
+     * Created By Dara on 10/2/2016
+     * ajax requests on submit
+     */
+    Route::group(['prefix'=>'ajax','as'=>'ajax.','middleware'=>['ajax','auth']],function(){
+        Route::group(['prefix'=>'article','as'=>'article.'],function(){
+            Route::post('/{article}/comment/{comment_id}/store',['as'=>'comment.store','uses'=>'CommentController@article']);
+        });
+    });
+
 });

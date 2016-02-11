@@ -45,7 +45,7 @@
                     </li>
                     <li class="category">
                         <i class="fa fa-comment"></i>
-                        <a href="#">5 دیدگاه</a>
+                        <a href="#"><span class="num_comment">{{$num_comments}}</span> دیدگاه</a>
                     </li>
                 </ul>
             </div>
@@ -87,94 +87,16 @@
                 <div class="comment-list">
                     <!--all comments begins-->
                     <ul class="media-list">
-                        <!--each comment begins-->
-                        <li class="media">
-                            <div class="media-right">
-                                <a href="#">
-                                    <img class="media-object" src="images/person1.jpg" alt="">
-                                </a>
-                            </div>
-                            <div class="media-body comment-media">
-                                <a class="comment-author" href="#">
-                                    احمد دارا
-                                </a>
 
-                                <div class="pull-left date-container">
-                                    <span class="comment-date">در سه شنبه 06 بهمن 1394  |</span>
-                                    <a class="pull-left" href="#"> پاسخ</a>
-                                </div>
-
-                                <p>
-                                    سلام خسته نباشید من دوره قبل رو دیدم خیلی عالی بود ممنون ولی
-                                    وقتی رو شروع یادگیری این دوره کلیک میکنم گزینه پرداخت نمیاد مشکل
-                                    چیه؟ممنون میشم اگه راهنمایی کنید
-                                </p>
-                            </div>
-                        </li>
-                        <li class="media reply">
-                            <div class="media-right">
-                                <a href="#">
-                                    <img class="media-object" src="images/person1.jpg" alt="">
-                                </a>
-                            </div>
-                            <div class="media-body comment-media">
-                                <a class="comment-author" href="#">
-                                    احمد دارا
-                                </a>
-
-                                <div class="pull-left date-container">
-                                    <span class="comment-date">در چهارشنبه 07 بهمن 1394</span>
-                                </div>
-
-                                <p>
-                                    سلام خسته نباشید من دوره قبل رو دیدم خیلی عالی بود ممنون ولی
-                                    وقتی رو شروع یادگیری این دوره کلیک میکنم گزینه پرداخت نمیاد مشکل
-                                    چیه؟ممنون میشم اگه راهنمایی کنید
-                                </p>
-                            </div>
-                        </li>
-                        <li class="media">
-                            <div class="media-right">
-                                <a href="#">
-                                    <img class="media-object" src="images/person1.jpg" alt="">
-                                </a>
-                            </div>
-                            <div class="media-body comment-media">
-                                <a class="comment-author" href="#">
-                                    احمد دارا
-                                </a>
-
-                                <div class="pull-left date-container">
-                                    <span class="comment-date">در سه شنبه 06 بهمن 1394  |</span>
-                                    <a class="pull-left" href="#"> پاسخ</a>
-                                </div>
-
-                                <p>
-                                    سلام خسته نباشید من دوره قبل رو دیدم خیلی عالی بود ممنون ولی
-                                    وقتی رو شروع یادگیری این دوره کلیک میکنم گزینه پرداخت نمیاد مشکل
-                                    چیه؟ممنون میشم اگه راهنمایی کنید
-                                </p>
-                            </div>
-                        </li>
+                        <!--each comment begins note:add reply class to li for reply style-->
+                        @include('article.partials.commentList')
                         <!--each comment ends-->
-                        <li class="media comment-form">
-                            <div class="media-right">
-                                <a href="#">
-                                    <img class="media-object" src="images/person1.jpg" alt="">
-                                </a>
-                            </div>
-                            <div class="media-body">
-                                <form class="form-horizontal" action="#">
-                                                        <textarea class="form-control"
-                                                                  placeholder="لطفا نظر خود را وارد نمایید ..."
-                                                                  name="body" id=""></textarea>
-                                    <button type="submit" class="btn btn-learn">
-                                        <i class="fa fa-paper-plane-o"></i>
-                                        ارسال نظر
-                                    </button>
-                                </form>
-                            </div>
-                        </li>
+
+                        <!--comment form begins-->
+                        @can('login')
+                        @include('article.partials.commentForm')
+                        @endcan
+                        <!--comment form ends-->
                     </ul>
                     <!--all comments ends-->
                 </div>

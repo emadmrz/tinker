@@ -14,6 +14,11 @@ use Laracasts\Flash\Flash;
 
 class ArticleController extends Controller
 {
+    private $user;
+
+    public function __construct(Request $request){
+        $this->user=$request->user();
+    }
     public function index()
     {
         $articles=Article::where('published',1)->get();
@@ -21,7 +26,12 @@ class ArticleController extends Controller
     }
 
     public function show(Article $article){
-        return view('article.show',compact('article'))->with(['title'=>$article->title]);
+        $user=$this->user;
+        $num_comments=$article->comments()->count();
+        return view('article.show',compact('article','user'))->with([
+            'title'=>$article->title,
+            'num_comments'=>$num_comments
+        ]);
     }
 
     /**
@@ -60,13 +70,13 @@ class ArticleController extends Controller
 
     public function create()
     {
-        $user = Auth::user();
+        $user = $this->user;
         return view('article.create')->with(['title' => 'ثبت مقاله جدید']);
     }
 
     public function store(Request $request)
     {
-        $user = $request->user();
+        $user = $this->user;
         $this->validate($request, [
             'title' => 'required|min:3',
             'published' => 'required|in:0,1',
@@ -101,7 +111,7 @@ class ArticleController extends Controller
 
     public function edit(Article $article)
     {
-        $user = Auth::user();
+        $user = $this->user;
         $tagsQuery = $article->tags();
         $tags = $tagsQuery->lists('name', 'id');
         $selected = $tagsQuery->lists('id')->toArray();
@@ -110,7 +120,7 @@ class ArticleController extends Controller
 
     public function update(Article $article, Request $request)
     {
-        $user = $request->user();
+        $user = $this->user;
         $this->validate($request, [
             'title' => 'required|min:3',
             'published' => 'required|in:0,1',
