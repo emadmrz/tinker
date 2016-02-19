@@ -12,10 +12,16 @@ use Laracasts\Flash\Flash;
 
 class ProfileController extends Controller
 {
+    private $user;
+
+    public function __construct(Request $request)
+    {
+        $this->user=$request->user();
+    }
 
     public function index()
     {
-        $user = Auth::user();
+        $user = $this->user;
         return view('profile.index', compact('user'))->with(['title' => $user->full_name]);
     }
 
@@ -33,11 +39,11 @@ class ProfileController extends Controller
         if($request->hasFile('image')){
             $image=$input['image'];
             $imageName=$user->id.str_random(20).'.'.$image->getClientOriginalExtension();
-            $image->move(public_path().'/images/files/'.$user->id,$imageName);
+            $image->move(public_path().'/images/persons/',$imageName);
             /* Delete the previous image */
             if($previousImage!=null){
-                if(File::exists(public_path().'/images/files/'.$user->id.'/'.$previousImage)){
-                    unlink(public_path().'/images/files/'.$user->id.'/'.$previousImage);
+                if(File::exists(public_path().'/images/persons/'.$previousImage)){
+                    unlink(public_path().'/images/persons/'.$previousImage);
                 }
             }
         }else{

@@ -1,10 +1,7 @@
 <li class="media @if($newComment->parent_id==0) level1 @else reply @endif" data-article-value="{{$article->id}}" data-comment-value="{{$newComment->id}}">
     <div class="media-right">
         <a href="#">
-            <?php
-            $owner=$newComment->user;
-            ?>
-            <img class="media-object" src="{{asset('images/files/'.$owner->id.'/'.$owner->avatar)}}" alt="">
+            <img class="media-object" src="{{asset('images/persons/'.$newComment->user->avatar)}}" alt="">
         </a>
     </div>
     <div class="media-body comment-media">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Article;
+use App\Category;
 use App\Tag;
 use Illuminate\Http\Request;
 
@@ -27,8 +28,9 @@ class ArticleController extends Controller
 
     public function show(Article $article){
         $user=$this->user;
+        $comments=$article->comments;
         $num_comments=$article->comments()->count();
-        return view('article.show',compact('article','user'))->with([
+        return view('article.show',compact('article','user','comments'))->with([
             'title'=>$article->title,
             'num_comments'=>$num_comments
         ]);
@@ -71,7 +73,13 @@ class ArticleController extends Controller
     public function create()
     {
         $user = $this->user;
-        return view('article.create')->with(['title' => 'ثبت مقاله جدید']);
+        $mainCategories = Category::roots()->lists('name', 'id');
+        $main = [];
+        $main[0] = 'انتخاب کنید';
+        foreach ($mainCategories as $key => $value) {
+            $main[$key] = $value;
+        }
+        return view('article.create',compact('main'))->with(['title' => 'ثبت مقاله جدید']);
     }
 
     public function store(Request $request)
@@ -81,6 +89,7 @@ class ArticleController extends Controller
             'title' => 'required|min:3',
             'published' => 'required|in:0,1',
             'content' => 'required|min:3',
+            'sub_category_id' => 'required|integer',
             'image' => 'mimes:jpeg,bmp,png,jpg|max:1024'
         ]);
         $input = $request->all();
@@ -98,7 +107,8 @@ class ArticleController extends Controller
             'title' => $input['title'],
             'content' => $input['content'],
             'published' => $input['published'],
-            'image' => $imageName
+            'image' => $imageName,
+            'sub_category_id'=>$request->input('sub_category_id')
         ]);
 
         /*register tags*/

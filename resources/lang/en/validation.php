@@ -113,6 +113,18 @@ return [
         ],
         'content'=>[
             'required'=>'متن خالی می باشد .'
+        ],
+        'description'=>[
+            'required'=>'توضیحات خالی می باشد .'
+        ],
+        'name'=>[
+            'required'=>'عنوان خالی می باشد .'
+        ],
+        'sub_category_id'=>[
+            'required'=>'دسته بندی خالی می باشد .'
+        ],
+        'price'=>[
+            'required'=>'قیمت خالی می باشد .'
         ]
     ],
 

@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Article;
+use App\Category;
 use App\Comment;
+use App\Course;
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -30,6 +32,15 @@ class RouteServiceProvider extends ServiceProvider
         parent::boot($router);
         $router->bind('article',function($value){
             return Article::findOrFail($value);
+        });
+        $router->bind('category',function($value){
+            return Category::where('parent_id',null)->findOrFail($value);
+        });
+        $router->bind('subCategory',function($value){
+            return Category::where('depth',1)->findOrFail($value);
+        });
+        $router->bind('course',function($value){
+            return Course::findOrFail($value);
         });
     }
 

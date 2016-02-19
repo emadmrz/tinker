@@ -4,16 +4,20 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    مقاله جدید
+                    ثبت دوره آموزشی
                 </div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-6">
-                            {!! Form::open(['route'=>'admin.article.store','method'=>'post', 'enctype'=>'multipart/form-data']) !!}
+                            {!! Form::open(['route'=>'admin.course.store','method'=>'post', 'enctype'=>'multipart/form-data']) !!}
                             <div class="form-group">
-                                <label for="title">عنوان</label>
-                                <input id="title" name="title" class="form-control"
+                                <label for="name">عنوان</label>
+                                <input id="name" name="name" class="form-control"
                                        placeholder="عنوان را وارد نمایید ...">
+                            </div>
+                            <div class="form-group">
+                                <label for="image">درج تصویر</label>
+                                <input class="form-control" id="image" name="image" type="file">
                             </div>
                             <div class="form-group">
                                 <label>دسته بندی اصلی</label>
@@ -24,20 +28,22 @@
                                 {!! Form::select('sub_category_id', [], null, ['class'=>'form-control select-status','id'=>'subCategory']) !!}
                             </div>
                             <div class="form-group">
-                                <label for="image">درج تصویر</label>
-                                <input class="form-control" id="image" name="image" type="file">
+                                <label>توضیحات</label>
+                                {!! Form::textarea('description', null, ['class'=>'form-control', 'rows'=>'10']) !!}
                             </div>
-                            {{--summernote--}}
-                            {!! Form::textarea('content', null, ['class'=>'form-control article_summernote', 'rows'=>'10']) !!}
                             <div class="form-group">
-                                <label>وضعیت انتشار</label>
-                                {!! Form::select('published', [1=>'منتشر شود', 0=>'منتشر نشود'], 1, ['class'=>'form-control select-status']) !!}
+                                <label for="price">هزینه دوره</label>
+                                <input id="price" name="price" class="form-control" placeholder="هزینه (تومان)">
+                            </div>
+                            <div class="form-group">
+                                <label>وضعیت</label>
+                                {!! Form::select('active', [1=>'فعال', 0=>'غیرفعال'], 0, ['class'=>'form-control select-status', 'placeholder'=>'']) !!}
                             </div>
                             <div class="form-group">
                                 <label>برچسب ها</label>
-                                {!! Form::select('tags[]', [], null, ['id'=>'tags_select','class'=>'form-control','multiple']) !!}
+                                {!! Form::select('tags[]', [], null, ['id'=>'tags_select','class'=>'form-control','multiple', 'placeholder'=>'']) !!}
                             </div>
-                            <button type="submit" class="btn btn-success">ارسال</button>
+                            <button type="submit" class="btn btn-success">ثبت</button>
 
                             {!! Form::close() !!}
                         </div>

@@ -9,5 +9,15 @@ return[
     'confirmationEmailResended'=>'ارسال مجدد ایمیل فعال سازی',
     'profileUpdated'=>'پروفایل با موفقیت ویرایش گردید.',
     'commentSent'=>'نظر شما با موفقیت ثبت گردید .',
-    'answerSent'=>'پاسخ با موفقیت ثبت گردید .'
+    'answerSent'=>'پاسخ با موفقیت ثبت گردید .',
+    'categoryCreated'=>'دسته بندی با موفقیت ایجاد گردید .',
+    'categoryUpdated'=>'دسته بندی با موفقیت ویرایش گردید .',
+    'categoryDeleted'=>'دسته بندی با موفقیت حذف گردید .',
+    'subCategoryCreated'=>'زیرمجموعه با موفقیت اضافه گردید .',
+    'subCategoryDeleted'=>'زیرمجموعه با موفقیت حذف گردید .',
+    'subCategoryUpdated'=>'زیرمجموعه با موفقیت ویرایش گردید .',
+    'courseCreated'=>'دوره با موفقیت ثبت گردید .',
+    'courseUpdated'=>'دوره با موفقیت ویرایش گردید .',
+    'sessionAdded'=>'جلسه با موفقیت اضافه گردید .',
+    'articleCreated'=>'مقاله با موفقیت ثبت گردید .',
 ];

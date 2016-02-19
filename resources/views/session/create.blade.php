@@ -4,40 +4,43 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    مقاله جدید
+                    افزودن جلسه به دوره ی
+                    <span style="color: #ff685d">{{$course->name}}</span>
                 </div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-6">
-                            {!! Form::open(['route'=>'admin.article.store','method'=>'post', 'enctype'=>'multipart/form-data']) !!}
+                            {!! Form::open(['route'=>['admin.course.session.store',$course->id],'method'=>'post', 'enctype'=>'multipart/form-data']) !!}
                             <div class="form-group">
                                 <label for="title">عنوان</label>
                                 <input id="title" name="title" class="form-control"
                                        placeholder="عنوان را وارد نمایید ...">
                             </div>
                             <div class="form-group">
-                                <label>دسته بندی اصلی</label>
-                                {!! Form::select('category',$main, [], ['class'=>'form-control select-status','id'=>'mainCategory']) !!}
+                                <label for="file">آپلود فیلم جلسه</label>
+                                <input class="form-control" id="file" name="file" type="file">
                             </div>
                             <div class="form-group">
-                                <label>دسته بندی فرعی</label>
-                                {!! Form::select('sub_category_id', [], null, ['class'=>'form-control select-status','id'=>'subCategory']) !!}
+                                <label for="attachment">آپلود فایل های جلسه</label>
+                                <input class="form-control" id="attachment" name="attachment[]" type="file" multiple>
                             </div>
                             <div class="form-group">
-                                <label for="image">درج تصویر</label>
-                                <input class="form-control" id="image" name="image" type="file">
+                                <label>سطح جلسه</label>
+                                {!! Form::select('level', [1=>'مقدماتی', 2=>'متوسط',3=>'پیشرفته'], 2, ['class'=>'form-control select-status']) !!}
                             </div>
-                            {{--summernote--}}
-                            {!! Form::textarea('content', null, ['class'=>'form-control article_summernote', 'rows'=>'10']) !!}
                             <div class="form-group">
-                                <label>وضعیت انتشار</label>
-                                {!! Form::select('published', [1=>'منتشر شود', 0=>'منتشر نشود'], 1, ['class'=>'form-control select-status']) !!}
+                                <label>توضیحات</label>
+                                {!! Form::textarea('description', null, ['class'=>'form-control', 'rows'=>'10']) !!}
+                            </div>
+                            <div class="form-group">
+                                <label>وضعیت</label>
+                                {!! Form::select('active', [1=>'فعال', 0=>'غیرفعال'], 0, ['class'=>'form-control select-status']) !!}
                             </div>
                             <div class="form-group">
                                 <label>برچسب ها</label>
                                 {!! Form::select('tags[]', [], null, ['id'=>'tags_select','class'=>'form-control','multiple']) !!}
                             </div>
-                            <button type="submit" class="btn btn-success">ارسال</button>
+                            <button type="submit" class="btn btn-success">ثبت</button>
 
                             {!! Form::close() !!}
                         </div>

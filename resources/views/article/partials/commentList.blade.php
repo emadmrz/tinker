@@ -1,21 +1,18 @@
-@foreach($article->comments->where('parent_id',0) as $newComment)
-    <li class="media @if($newComment->parent_id==0) level1 @else reply @endif" data-article-value="{{$article->id}}" data-comment-value="{{$newComment->id}}">
+@foreach($comments->where('parent_id',0) as $newMainComment)
+    <li class="media @if($newMainComment->parent_id==0) level1 @else reply @endif" data-article-value="{{$article->id}}" data-comment-value="{{$newMainComment->id}}">
         <div class="media-right">
             <a href="#">
-                <?php
-                $owner=$newComment->user;
-                ?>
-                <img class="media-object" src="{{asset('images/files/'.$owner->id.'/'.$owner->avatar)}}" alt="">
+                <img class="media-object" src="{{asset('images/persons/'.$newMainComment->user->avatar)}}" alt="">
             </a>
         </div>
         <div class="media-body comment-media">
             <a class="comment-author" href="#">
-                {{$newComment->user->full_name}}
+                {{$newMainComment->user->full_name}}
             </a>
 
             <div class="pull-left date-container">
-                <span class="comment-date">{{$newComment->day_shamsi_created_at}} |</span>
-                @if($newComment->parent_id==0)
+                <span class="comment-date">{{$newMainComment->day_shamsi_created_at}} |</span>
+                @if($newMainComment->parent_id==0)
                     @can('login')
                     <a class="pull-left reply-button" href="#"> پاسخ</a>
                     @endcan
@@ -23,11 +20,11 @@
             </div>
 
             <p>
-                {{$newComment->content}}
+                {{$newMainComment->content}}
             </p>
         </div>
     </li>
-    @foreach($newComment->children() as $newComment)
+    @foreach($comments->where('parent_id',$newMainComment->id) as $newComment)
         @include('article.partials.comment')
     @endforeach
 @endforeach

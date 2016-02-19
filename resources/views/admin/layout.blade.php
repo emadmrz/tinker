@@ -408,6 +408,15 @@
 <script src="{{asset('admin/js/sb-admin-2.js')}}"></script>
 
 <script src="{{asset('admin/js/admin.js')}}"></script>
+<script>
+    $(document).ready(function(){
+        $('a[data-delete-confirm]').click(function(){
+            if (!confirm('آیا مطمئن هستید که می خواهید این رکورد را حذف نمایید ؟')) {
+                return false;
+            }
+        });
+    });
+</script>
 
 @yield('script')
 

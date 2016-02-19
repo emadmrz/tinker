@@ -33,6 +33,44 @@ $(document).ready(function () {
         minimumResultsForSearch: Infinity,
         language:'fa'
     });
+
+    $('select#mainCategory').find('option[value=0]').attr('disabled',true);
+    $('select#subCategory').find('option[value=0]').attr('disabled',true);
+
+    /**
+     * Created By Dara on 14/2/2016
+     * fill the subCategory select box on when main category selected
+     */
+    $('select#mainCategory').change(function(){
+        var $this=$(this);
+        if($this.val!=0){
+            $.ajax({
+                type:'get',
+                url:"/ajax/category/subCategory",
+                data:{category_id:$this.val()},
+                dataType:'json',
+                beforeSend:function(){
+
+                },
+                complete:function(){
+
+                },
+                success:function(data){
+                    var $select=$('select#subCategory');
+                    var $default=$("<option/>").attr({'value':0,'disabled':true,'selected':true}).text('انتخاب کنید');
+                    $select.html('');
+                    $select.prepend($default);
+                    $.each(data,function(key,value){
+                        var $option=$("<option/>").attr('value',key).text(value);
+                        $select.append($option);
+                    });
+                },
+                error:function(xhr){
+                    alert("An error occured: " + xhr.status + " " + xhr.statusText);
+                }
+            })
+        }
+    });
 });
 $.ajaxSetup({
     headers: {
