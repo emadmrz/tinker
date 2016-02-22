@@ -70,7 +70,7 @@ Route::group(['middleware' => 'web'], function () {
      * Admin routes
      */
     Route::group(['prefix'=>'admin','as'=>'admin.'],function(){
-        Route::get('/',['as'=>'index','uses'=>'AdminController@index']);
+        Route::get('/',['as'=>'index','uses'=>'Admin\AdminController@index']);
 
 
 
