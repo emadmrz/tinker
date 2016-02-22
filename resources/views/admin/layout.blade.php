@@ -21,6 +21,9 @@
     <!-- select2 -->
     <link rel="stylesheet" href="{{asset('select2/css/select2.min.css')}}">
 
+    <!--animate.css-->
+    <link type="text/css" rel="stylesheet" href="{{asset('css/animate.css')}}">
+
     <!-- Custom CSS -->
     <link href="{{asset('admin/css/sb-admin-2.css')}}" rel="stylesheet">
 
@@ -404,6 +407,9 @@
 <script src="{{asset('select2/js/select2.min.js')}}"></script>
 <script src="{{asset('select2/js/fa.js')}}"></script>
 
+<!--notify.js-->
+<script src="{{asset('js/bootstrap-notify.js')}}"></script>
+
 <!-- Custom Theme JavaScript -->
 <script src="{{asset('admin/js/sb-admin-2.js')}}"></script>
 
@@ -415,6 +421,27 @@
                 return false;
             }
         });
+    });
+
+    /**
+     * Created By Dara on 8/2/2016
+     * register notify messages
+     */
+    $.notifyDefaults({
+        delay: 5000,
+        timer: 100,
+        offset: {
+            x: 10,
+            y:20
+        },
+        placement: {
+            from: "bottom",
+            align: "right"
+        },
+        animate: {
+            enter: 'animated fadeInRight',
+            exit: 'animated fadeOutRight'
+        }
     });
 </script>
 

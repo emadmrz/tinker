@@ -19,5 +19,8 @@ return[
     'courseCreated'=>'دوره با موفقیت ثبت گردید .',
     'courseUpdated'=>'دوره با موفقیت ویرایش گردید .',
     'sessionAdded'=>'جلسه با موفقیت اضافه گردید .',
+    'sessionUpdated'=>'جلسه با موفقیت ویرایش گردید .',
     'articleCreated'=>'مقاله با موفقیت ثبت گردید .',
+    'articleEdited'=>'مقاله با موفقیت ویرایش گردید .',
+    'attachmentDeleted'=>'فایل با موفقیت حذف گردید .',
 ];

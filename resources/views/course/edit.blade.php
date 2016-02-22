@@ -17,7 +17,11 @@
                             <div class="form-group">
                                 <label for="image">درج تصویر</label>
                                 <input class="form-control" id="image" name="image" type="file">
-                                <img style="max-width: 50%;" src="{{asset('images/files/'.$course->image)}}" alt="">
+                                @if($course->image)
+                                    <img style="max-width: 50%;" src="{{asset('images/files/'.$course->image)}}" alt="">
+                                @else
+                                    <h5 class="alert alert-info">تصویری برای نمایش وجود ندارد</h5>
+                                @endif
                             </div>
                             <div class="form-group">
                                 <label>دسته بندی اصلی</label>
@@ -37,11 +41,11 @@
                             </div>
                             <div class="form-group">
                                 <label>وضعیت</label>
-                                {!! Form::select('active', [1=>'فعال', 0=>'غیرفعال'], null, ['class'=>'form-control select-status', 'placeholder'=>'']) !!}
+                                {!! Form::select('active', [1=>'فعال', 0=>'غیرفعال'], null, ['class'=>'form-control select-status']) !!}
                             </div>
                             <div class="form-group">
                                 <label>برچسب ها</label>
-                                {!! Form::select('tags[]', $tags, $selectedTag, ['id'=>'tags_select','class'=>'form-control','multiple', 'placeholder'=>'']) !!}
+                                {!! Form::select('tags[]', $tags, $selectedTag, ['id'=>'tags_select','class'=>'form-control','multiple']) !!}
                             </div>
                             <button type="submit" class="btn btn-success">ویرایش</button>
 

@@ -4,7 +4,7 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    افزودن جلسه به دوره ی
+                    افزودن جلسه به
                     <span style="color: #ff685d">{{$course->name}}</span>
                 </div>
                 <div class="panel-body">
@@ -13,12 +13,11 @@
                             {!! Form::open(['route'=>['admin.course.session.store',$course->id],'method'=>'post', 'enctype'=>'multipart/form-data']) !!}
                             <div class="form-group">
                                 <label for="title">عنوان</label>
-                                <input id="title" name="title" class="form-control"
-                                       placeholder="عنوان را وارد نمایید ...">
+                                <input id="title" name="title" class="form-control">
                             </div>
                             <div class="form-group">
-                                <label for="file">آپلود فیلم جلسه</label>
-                                <input class="form-control" id="file" name="file" type="file">
+                                <label for="file">فیلم جلسه (نام فایل)</label>
+                                <input class="form-control" id="file" name="file" type="text">
                             </div>
                             <div class="form-group">
                                 <label for="attachment">آپلود فایل های جلسه</label>

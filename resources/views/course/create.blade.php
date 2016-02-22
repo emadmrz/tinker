@@ -37,11 +37,11 @@
                             </div>
                             <div class="form-group">
                                 <label>وضعیت</label>
-                                {!! Form::select('active', [1=>'فعال', 0=>'غیرفعال'], 0, ['class'=>'form-control select-status', 'placeholder'=>'']) !!}
+                                {!! Form::select('active', [1=>'فعال', 0=>'غیرفعال'], 0, ['class'=>'form-control select-status']) !!}
                             </div>
                             <div class="form-group">
                                 <label>برچسب ها</label>
-                                {!! Form::select('tags[]', [], null, ['id'=>'tags_select','class'=>'form-control','multiple', 'placeholder'=>'']) !!}
+                                {!! Form::select('tags[]', [], null, ['id'=>'tags_select','class'=>'form-control','multiple']) !!}
                             </div>
                             <button type="submit" class="btn btn-success">ثبت</button>
 

@@ -42,7 +42,8 @@ class CourseController extends Controller
             'description' => 'required|min:3',
             'sub_category_id' => 'required|integer',
             'price' => 'required|integer',
-            'image' => 'mimes:jpeg,bmp,png,jpg|max:1024'
+            'image' => 'mimes:jpeg,bmp,png,jpg|max:1024',
+            'tags.*'=>'min:2|max:30'
         ]);
         $input = $request->all();
         /* check if the user has uploaded image or not */
@@ -67,6 +68,9 @@ class CourseController extends Controller
 
         /*register tags*/
         $selected = $this->registerTags($request);
+        if(!$selected){
+            return redirect()->back();
+        }
         $course->tags()->sync($selected);
 
         Flash::success(trans('users.courseCreated'));
@@ -75,22 +79,23 @@ class CourseController extends Controller
 
     public function edit(Course $course)
     {
+        $user = $this->user;
         $mainCategories = Category::roots()->lists('name', 'id');
         $main = [];
         $main[0] = 'انتخاب کنید';
         foreach ($mainCategories as $key => $value) {
             $main[$key] = $value;
         }
-        $tagsQuery = $course->tags();
-        $tags = $tagsQuery->lists('name', 'id');
-        $selectedTag = $tagsQuery->lists('id')->toArray();
         $subCategory=Category::findOrFail($course->sub_category_id);
-        $subCategories=$subCategory->getSiblings()->lists('name','id');
+        $subCategories=$subCategory->siblingsAndSelf()->lists('name','id');
         $selectedMainCategory=$subCategory->getAncestors()->first()->id;
+        $tagsQuery = $course->tags();
+        $tags = $tagsQuery->lists('name','name');
+        $selected = $tagsQuery->lists('name')->toArray();
         return view('course.edit', compact('course', 'main'))->with([
             'title' => 'ویرایش دوره',
             'tags'=>$tags,
-            'selectedTag'=>$selectedTag,
+            'selectedTag'=>$selected,
             'selectedSubCategory'=>$subCategory->id,
             'selectedMainCategory'=>$selectedMainCategory,
             'subCategories'=>$subCategories
@@ -136,6 +141,9 @@ class CourseController extends Controller
 
         /*register tags*/
         $selected = $this->registerTags($request);
+        if(!$selected){//if the selected tags has error
+            return redirect()->back();
+        }
         $course->tags()->sync($selected);
 
         Flash::success(trans('users.courseUpdated'));
@@ -148,15 +156,21 @@ class CourseController extends Controller
      */
     private function registerTags($request)
     {
-        $tags = Tag::all()->lists('name', 'id')->toArray();
         $selected = $request->input('tags');
-        foreach ($selected as $key => $value) {
-            if (!array_key_exists($value, $tags)) {
-                $tag = Tag::create(['name' => $value]);
-                unset($selected[$key]);
-                $selected[] = $tag->id;
+        if(count($selected)>4){ //the user can select up to 4 tags
+            //do nothing
+        }else{
+            $selectedIds=[];
+            foreach($selected as $select){
+                if($tag=Tag::where('name',$select)->first()){ //already exists
+                    $selectedIds[]=$tag->id;
+                }else{
+                    $newTag=Tag::create(['name'=>$select]);
+                    $selectedIds[]=$newTag->id;
+                }
             }
+            return $selectedIds;
         }
-        return $selected;
+        return false;
     }
 }

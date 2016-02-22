@@ -57,11 +57,12 @@ $.ajaxSetup({
 function article_comment(data,$this) {
     if(data.nested){//reply
         $this.closest('li#comment-reply-form').prev('li.media.level1').after(data.newComment);
+        $('.article-full-details span.num_comment').html(data.numComment);
         $this.closest('li#comment-reply-form').remove();
 
     }else{
         $('.comment-list').find('ul.media-list').prepend(data.newComment);
-        $('.article-full-details span.num_comment').html(data.numComments);
+        $('.article-full-details span.num_comment').html(data.numComment);
         $('.comment-list').find('textarea[name="content"]').val('');
     }
 

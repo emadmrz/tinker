@@ -116,6 +116,8 @@ Route::group(['middleware' => 'web'], function () {
             Route::post('/{course}/update',['as'=>'update','uses'=>'CourseController@update']);
             Route::get('/{course}/session/create',['as'=>'session.create','uses'=>'SessionController@create']);
             Route::post('/{course}/session/store',['as'=>'session.store','uses'=>'SessionController@store']);
+            Route::get('/{course}/session/{session}/edit',['as'=>'session.edit','uses'=>'SessionController@edit']);
+            Route::post('/{course}/session/{session}/update',['as'=>'session.update','uses'=>'SessionController@update']);
         });
 
 
@@ -144,6 +146,17 @@ Route::group(['middleware' => 'web'], function () {
         Route::group(['prefix'=>'category','as'=>'category.'],function(){
             Route::get('/subCategory',['as'=>'change','uses'=>'CategoryController@getSubCategory']);
         });
+
+        Route::group(['prefix'=>'session','as'=>'session.'],function(){
+            Route::get('/{session}/attachment/{attachment}/delete',['as'=>'attachment.delete','uses'=>'SessionController@attachmentDelete']);
+        });
     });
 
+
+    Route::get('video/{videoName}',['as'=>'session.showVideo','uses'=>'SessionController@showVideo']);
+    Route::get('file/{fileName}',['as'=>'session.showFile','uses'=>'SessionController@downloadAttachmentFile']);
+
+
 });
+
+

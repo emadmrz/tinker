@@ -31,7 +31,8 @@ $(document).ready(function () {
         placeholder: "کلمات کلیدی",
         dir:'rtl',
         minimumResultsForSearch: Infinity,
-        language:'fa'
+        language:'fa',
+        maximumSelectionLength: 4
     });
 
     $('select#mainCategory').find('option[value=0]').attr('disabled',true);
@@ -71,6 +72,37 @@ $(document).ready(function () {
             })
         }
     });
+
+    /**
+     * Created By Dara on 21/2/2016
+     * delete attachment related to session
+     */
+    $("a.delete-session-attachment").click(function(e){
+        e.preventDefault();
+        var $this=$(this);
+        var session_id=$this.attr('data-session');
+        var attachment_id=$this.attr('data-attachment');
+        $.ajax({
+            type:'get',
+            dataType:'json',
+            url:'/ajax/session/'+session_id+'/attachment/'+attachment_id+'/delete',
+            beforeSend:function(){
+                $this.html('<i class="fa fa-spinner fa-spin"></i>');
+            },
+            complete:function(){
+
+            },
+            success:function(data){
+                var type='success';
+                $this.closest('tr').remove();
+                $.notify(data.msg, {type: type});
+            },
+            error:function(xhr){
+                alert("An error occured: " + xhr.status + " " + xhr.statusText);
+            }
+        });
+    });
+
 });
 $.ajaxSetup({
     headers: {
