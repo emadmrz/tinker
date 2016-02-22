@@ -195,6 +195,15 @@ class ArticleController extends Controller
     }
 
     /**
+     * Created By Dara on 22/2/2016
+     * show list of articles in admin panel
+     */
+    public function adminIndex(){
+        $articles=Article::all();
+        return view('article.adminIndex',compact('articles'))->with(['title'=>'مقالات']);
+    }
+
+    /**
      * Created By Dara on 6/2/2016
      * register tags for article
      */

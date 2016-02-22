@@ -151,6 +151,16 @@ class CourseController extends Controller
     }
 
     /**
+     * Created By Dara on 22/2/2016
+     * show course list in admin panel
+     */
+    public function adminIndex(){
+        $user=$this->user;
+        $courses=Course::all();
+        return view('course.adminIndex',compact('courses'))->with(['title'=>'دوره های آموزشی']);
+    }
+
+    /**
      * Created By Dara on 14/2/2016
      * register tags for course
      */

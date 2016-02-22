@@ -79,6 +79,7 @@ Route::group(['middleware' => 'web'], function () {
          * Article management (admin) add/edit
          */
         Route::group(['prefix'=>'article','as'=>'article.'],function(){
+            Route::get('index',['as'=>'index','uses'=>'ArticleController@adminIndex']);
             Route::get('create',['as'=>'create','uses'=>'ArticleController@create']);
             Route::post('store',['as'=>'store','uses'=>'ArticleController@store']);
             Route::post('upload',['as'=>'upload','uses'=>'ArticleController@upload']);
@@ -110,10 +111,12 @@ Route::group(['middleware' => 'web'], function () {
          * course management
          */
         Route::group(['prefix'=>'course','as'=>'course.'],function(){
+            Route::get('index',['as'=>'index','uses'=>'CourseController@adminIndex']);
             Route::get('create',['as'=>'create','uses'=>'CourseController@create']);
             Route::post('store',['as'=>'store','uses'=>'CourseController@store']);
             Route::get('/{course}/edit',['as'=>'edit','uses'=>'CourseController@edit']);
             Route::post('/{course}/update',['as'=>'update','uses'=>'CourseController@update']);
+            Route::get('/{course}/session/index',['as'=>'session.index','uses'=>'SessionController@adminIndex']);
             Route::get('/{course}/session/create',['as'=>'session.create','uses'=>'SessionController@create']);
             Route::post('/{course}/session/store',['as'=>'session.store','uses'=>'SessionController@store']);
             Route::get('/{course}/session/{session}/edit',['as'=>'session.edit','uses'=>'SessionController@edit']);

@@ -225,6 +225,15 @@ class SessionController extends Controller
     }
 
     /**
+     * Created By Dara on 22/2/2016
+     * show list of sessions related to specific course
+     */
+    public function adminIndex(Course $course){
+        $sessions=$course->sessions()->get();
+        return view('session.adminIndex',compact('sessions','course'))->with(['title'=>"جلسات $course->name"]);
+    }
+
+    /**
      * Created By Dara on 14/2/2016
      * register tags for session
      */
