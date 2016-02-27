@@ -70,7 +70,7 @@ Route::group(['middleware' => 'web'], function () {
      * Admin routes
      */
     Route::group(['prefix'=>'admin','as'=>'admin.'],function(){
-        Route::get('/',['as'=>'index','uses'=>'AdminController@index']);
+        Route::get('/',['as'=>'index','uses'=>'Admin\AdminController@index']);
 
 
 
@@ -79,12 +79,48 @@ Route::group(['middleware' => 'web'], function () {
          * Article management (admin) add/edit
          */
         Route::group(['prefix'=>'article','as'=>'article.'],function(){
+            Route::get('index',['as'=>'index','uses'=>'ArticleController@adminIndex']);
             Route::get('create',['as'=>'create','uses'=>'ArticleController@create']);
             Route::post('store',['as'=>'store','uses'=>'ArticleController@store']);
             Route::post('upload',['as'=>'upload','uses'=>'ArticleController@upload']);
             Route::delete('delete',['as'=>'delete','uses'=>'ArticleController@delete']);
             Route::get('edit/{article}',['as'=>'edit','uses'=>'ArticleController@edit']);
             Route::post('edit/{article}',['as'=>'update','uses'=>'ArticleController@update']);
+        });
+
+        /**
+         * Created By Dara on 14/2/2016
+         * category management
+         */
+        Route::group(['prefix'=>'category','as'=>'category.'],function(){
+            Route::get('/',['as'=>'index','uses'=>'CategoryController@index']);
+            Route::post('/store',['as'=>'store','uses'=>'CategoryController@store']);
+            Route::get('/{category}/edit',['as'=>'edit','uses'=>'CategoryController@categoryEdit']);
+            Route::put('/{category}/update',['as'=>'update','uses'=>'CategoryController@update']);
+            Route::get('/{category}/delete',['as'=>'delete','uses'=>'CategoryController@delete']);
+            Route::get('/{category}/sub',['as'=>'add','uses'=>'CategoryController@add']);
+            Route::get('/{category}/subCategory',['as'=>'subCategory.index','uses'=>'CategoryController@subCategoryIndex']);
+            Route::post('/{category}/subCategory/store',['as'=>'subCategory.store','uses'=>'CategoryController@subCategoryStore']);
+            Route::get('/{category}/subCategory/{subCategory}/edit',['as'=>'subCategory.edit','uses'=>'CategoryController@subCategoryEdit']);
+            Route::get('/{category}/subCategory/{subCategory}/delete',['as'=>'subCategory.delete','uses'=>'CategoryController@subCategoryDelete']);
+            Route::put('/{category}/subCategory/{subCategory}/update',['as'=>'subCategory.update','uses'=>'CategoryController@subCategoryUpdate']);
+        });
+
+        /**
+         * Created By Dara on 14/2/2016
+         * course management
+         */
+        Route::group(['prefix'=>'course','as'=>'course.'],function(){
+            Route::get('index',['as'=>'index','uses'=>'CourseController@adminIndex']);
+            Route::get('create',['as'=>'create','uses'=>'CourseController@create']);
+            Route::post('store',['as'=>'store','uses'=>'CourseController@store']);
+            Route::get('/{course}/edit',['as'=>'edit','uses'=>'CourseController@edit']);
+            Route::post('/{course}/update',['as'=>'update','uses'=>'CourseController@update']);
+            Route::get('/{course}/session/index',['as'=>'session.index','uses'=>'SessionController@adminIndex']);
+            Route::get('/{course}/session/create',['as'=>'session.create','uses'=>'SessionController@create']);
+            Route::post('/{course}/session/store',['as'=>'session.store','uses'=>'SessionController@store']);
+            Route::get('/{course}/session/{session}/edit',['as'=>'session.edit','uses'=>'SessionController@edit']);
+            Route::post('/{course}/session/{session}/update',['as'=>'session.update','uses'=>'SessionController@update']);
         });
 
 
@@ -105,9 +141,25 @@ Route::group(['middleware' => 'web'], function () {
      * ajax requests on submit
      */
     Route::group(['prefix'=>'ajax','as'=>'ajax.','middleware'=>['ajax','auth']],function(){
+
         Route::group(['prefix'=>'article','as'=>'article.'],function(){
             Route::post('/{article}/comment/{comment_id}/store',['as'=>'comment.store','uses'=>'CommentController@article']);
         });
+
+        Route::group(['prefix'=>'category','as'=>'category.'],function(){
+            Route::get('/subCategory',['as'=>'change','uses'=>'CategoryController@getSubCategory']);
+        });
+
+        Route::group(['prefix'=>'session','as'=>'session.'],function(){
+            Route::get('/{session}/attachment/{attachment}/delete',['as'=>'attachment.delete','uses'=>'SessionController@attachmentDelete']);
+        });
     });
 
+
+    Route::get('video/{videoName}',['as'=>'session.showVideo','uses'=>'SessionController@showVideo']);
+    Route::get('file/{fileName}',['as'=>'session.showFile','uses'=>'SessionController@downloadAttachmentFile']);
+
+
 });
+
+

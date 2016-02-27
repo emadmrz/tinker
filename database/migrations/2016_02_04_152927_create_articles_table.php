@@ -16,10 +16,12 @@ class CreateArticlesTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('sub_category_id')->unsigned();
             $table->string('title');
             $table->longText('content');
             $table->integer('num_visit')->unsigned()->default(0);
             $table->integer('num_like')->unsigned()->default(0);
+            $table->integer('num_dislike')->unsigned()->default(0);
             $table->integer('num_comment')->unsigned()->default(0);
             $table->string('image');
             $table->boolean('published');

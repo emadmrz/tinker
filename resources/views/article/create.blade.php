@@ -16,6 +16,14 @@
                                        placeholder="عنوان را وارد نمایید ...">
                             </div>
                             <div class="form-group">
+                                <label>دسته بندی اصلی</label>
+                                {!! Form::select('category',$main, [], ['class'=>'form-control select-status','id'=>'mainCategory']) !!}
+                            </div>
+                            <div class="form-group">
+                                <label>دسته بندی فرعی</label>
+                                {!! Form::select('sub_category_id', [], null, ['class'=>'form-control select-status','id'=>'subCategory']) !!}
+                            </div>
+                            <div class="form-group">
                                 <label for="image">درج تصویر</label>
                                 <input class="form-control" id="image" name="image" type="file">
                             </div>
@@ -23,15 +31,15 @@
                             {!! Form::textarea('content', null, ['class'=>'form-control article_summernote', 'rows'=>'10']) !!}
                             <div class="form-group">
                                 <label>وضعیت انتشار</label>
-                                {!! Form::select('published', [1=>'منتشر شود', 0=>'منتشر نشود'], 1, ['class'=>'form-control select-status', 'placeholder'=>'']) !!}
+                                {!! Form::select('published', [1=>'منتشر شود', 0=>'منتشر نشود'], 1, ['class'=>'form-control select-status']) !!}
                             </div>
                             <div class="form-group">
                                 <label>برچسب ها</label>
-                                {!! Form::select('tags[]', [], null, ['id'=>'tags_select','class'=>'form-control','multiple', 'placeholder'=>'']) !!}
+                                {!! Form::select('tags[]', [], null, ['id'=>'tags_select','class'=>'form-control','multiple']) !!}
                             </div>
                             <button type="submit" class="btn btn-success">ارسال</button>
 
-                            </form>
+                            {!! Form::close() !!}
                         </div>
 
                     </div>

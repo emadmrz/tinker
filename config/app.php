@@ -157,6 +157,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Jenssegers\Agent\AgentServiceProvider::class,
         Morilog\Jalali\JalaliServiceProvider::class,
+        Baum\Providers\BaumServiceProvider::class,
 
 
         /*

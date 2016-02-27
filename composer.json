@@ -13,7 +13,8 @@
         "intervention/image": "^2.3",
         "jenssegers/agent": "^2.3",
         "morilog/jalali": "^1.0",
-        "nicolaslopezj/searchable": "^1.7"
+        "nicolaslopezj/searchable": "^1.7",
+        "baum/baum": "^1.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

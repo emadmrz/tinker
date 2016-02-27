@@ -1,7 +1,7 @@
 <li class="media comment-form">
     <div class="media-right">
         <a href="#">
-            <img class="media-object" src="{{asset('images/files/'.$user->id.'/'.$user->avatar)}}" alt="">
+            <img class="media-object" src="{{asset('images/persons/'.$user->avatar)}}" alt="">
         </a>
     </div>
     <div class="media-body">

@@ -2,4 +2,6 @@
 .idea
 .env
 /public/images/files
+/public/images/persons
 /public/video/
+/storage/app/

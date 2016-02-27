@@ -15,9 +15,21 @@
                                 {!! Form::text('title',null,['class'=>'form-control','id'=>'title','placeholder'=>'عنوان را وارد نمایید ...']) !!}
                             </div>
                             <div class="form-group">
+                                <label>دسته بندی اصلی</label>
+                                {!! Form::select('category',$main, $selectedMainCategory, ['class'=>'form-control select-status','id'=>'mainCategory']) !!}
+                            </div>
+                            <div class="form-group">
+                                <label>دسته بندی فرعی</label>
+                                {!! Form::select('sub_category_id', $subCategories, $selectedSubCategory, ['class'=>'form-control select-status','id'=>'subCategory']) !!}
+                            </div>
+                            <div class="form-group">
                                 <label for="image">درج تصویر</label>
                                 <input class="form-control" id="image" name="image" type="file">
-                                <img style="max-width: 50%;" src="{{asset('images/files/'.$user->id.'/'.$article->image)}}" alt="">
+                                @if($article->image)
+                                    <img style="max-width: 50%;" src="{{asset('images/files/'.$user->id.'/'.$article->image)}}" alt="">
+                                @else
+                                    <h5 class="alert alert-info">تصویری برای نمایش وجود ندارد</h5>
+                                @endif
                             </div>
                             {{--summernote--}}
                             {!! Form::textarea('content', null, ['class'=>'form-control article_summernote', 'rows'=>'10']) !!}

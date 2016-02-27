@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Article;
+use App\Category;
 use App\Tag;
 use Illuminate\Http\Request;
 
@@ -10,6 +11,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Laracasts\Flash\Flash;
 
 class ArticleController extends Controller
@@ -27,10 +29,9 @@ class ArticleController extends Controller
 
     public function show(Article $article){
         $user=$this->user;
-        $num_comments=$article->comments()->count();
-        return view('article.show',compact('article','user'))->with([
+        $comments=$article->comments;
+        return view('article.show',compact('article','user','comments'))->with([
             'title'=>$article->title,
-            'num_comments'=>$num_comments
         ]);
     }
 
@@ -71,7 +72,13 @@ class ArticleController extends Controller
     public function create()
     {
         $user = $this->user;
-        return view('article.create')->with(['title' => 'ثبت مقاله جدید']);
+        $mainCategories = Category::roots()->lists('name', 'id');
+        $main = [];
+        $main[0] = 'انتخاب کنید';
+        foreach ($mainCategories as $key => $value) {
+            $main[$key] = $value;
+        }
+        return view('article.create',compact('main'))->with(['title' => 'ثبت مقاله جدید']);
     }
 
     public function store(Request $request)
@@ -81,16 +88,19 @@ class ArticleController extends Controller
             'title' => 'required|min:3',
             'published' => 'required|in:0,1',
             'content' => 'required|min:3',
-            'image' => 'mimes:jpeg,bmp,png,jpg|max:1024'
+            'sub_category_id' => 'required|integer',
+            'image' => 'mimes:jpeg,bmp,png,jpg|max:1024',
+            'tags.*'=>'string|max:30|min:2',
         ]);
         $input = $request->all();
         /* check if the user has uploaded image or not */
         if ($request->hasFile('image')) {
             $image = $input['image'];
             $imageName = $user->id . str_random(20) . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path() . '/images/files/' . $user->id, $imageName);
+            $imageDbName=$user->id.'/'.$imageName;
+            $image->move(public_path('images/files/'.$user->id),$imageName);
         } else {
-            $imageName = '';
+            $imageDbName = '';
         }
 
         /*create article*/
@@ -98,11 +108,15 @@ class ArticleController extends Controller
             'title' => $input['title'],
             'content' => $input['content'],
             'published' => $input['published'],
-            'image' => $imageName
+            'image' => $imageDbName,
+            'sub_category_id'=>$request->input('sub_category_id')
         ]);
 
         /*register tags*/
         $selected = $this->registerTags($request);
+        if(!$selected){//if the selected tags has error
+            return redirect()->back();
+        }
         $article->tags()->sync($selected);
 
         Flash::success(trans('users.articleCreated'));
@@ -112,10 +126,26 @@ class ArticleController extends Controller
     public function edit(Article $article)
     {
         $user = $this->user;
+        $mainCategories = Category::roots()->lists('name', 'id');
+        $main = [];
+        $main[0] = 'انتخاب کنید';
+        foreach ($mainCategories as $key => $value) {
+            $main[$key] = $value;
+        }
+        $subCategory=Category::findOrFail($article->sub_category_id);
+        $subCategories=$subCategory->siblingsAndSelf()->lists('name','id');
+        $selectedMainCategory=$subCategory->getAncestors()->first()->id;
         $tagsQuery = $article->tags();
-        $tags = $tagsQuery->lists('name', 'id');
-        $selected = $tagsQuery->lists('id')->toArray();
-        return view('article.edit', compact('article', 'user', 'tags', 'selected'))->with(['title' => 'ویرایش مقاله']);
+        $tags = $tagsQuery->lists('name','name');
+        $selected = $tagsQuery->lists('name')->toArray();
+
+        return view('article.edit', compact('article', 'user', 'tags', 'selected'))->with([
+            'title' => 'ویرایش مقاله',
+            'main'=>$main,
+            'subCategories'=>$subCategories,
+            'selectedMainCategory'=>$selectedMainCategory,
+            'selectedSubCategory'=>$subCategory->id,
+        ]);
     }
 
     public function update(Article $article, Request $request)
@@ -125,7 +155,9 @@ class ArticleController extends Controller
             'title' => 'required|min:3',
             'published' => 'required|in:0,1',
             'content' => 'required|min:3',
-            'image' => 'mimes:jpeg,bmp,png,jpg|max:1024'
+            'image' => 'mimes:jpeg,bmp,png,jpg|max:1024',
+            'tags.*'=>'min:2|max:30',
+            'sub_category_id'=>'required|integer'
         ]);
         $input = $request->all();
         $previousImage = $article->image;
@@ -133,6 +165,7 @@ class ArticleController extends Controller
         if ($request->hasFile('image')) {
             $image = $input['image'];
             $imageName = $user->id . str_random(20) . '.' . $image->getClientOriginalExtension();
+            $imageDbName = $user->id.'/'.$imageName;
             $image->move(public_path() . '/images/files/' . $user->id, $imageName);
             /* Delete the previous image */
             if ($previousImage != null) {
@@ -141,7 +174,7 @@ class ArticleController extends Controller
                 }
             }
         } else {
-            $imageName = '';
+            $imageDbName = $previousImage;
         }
 
         /*update article*/
@@ -149,7 +182,8 @@ class ArticleController extends Controller
             'title' => $input['title'],
             'content' => $input['content'],
             'published' => $input['published'],
-            'image' => $imageName
+            'image' => $imageDbName,
+            'sub_category_id'=>$input['sub_category_id']
         ]);
 
         /*register tags*/
@@ -161,20 +195,37 @@ class ArticleController extends Controller
     }
 
     /**
+     * Created By Dara on 22/2/2016
+     * show list of articles in admin panel
+     */
+    public function adminIndex(){
+        $articles=Article::all();
+        return view('article.adminIndex',compact('articles'))->with(['title'=>'مقالات']);
+    }
+
+    /**
      * Created By Dara on 6/2/2016
      * register tags for article
      */
     private function registerTags($request)
     {
-        $tags = Tag::all()->lists('name', 'id')->toArray();
         $selected = $request->input('tags');
-        foreach ($selected as $key => $value) {
-            if (!array_key_exists($value, $tags)) {
-                $tag = Tag::create(['name' => $value]);
-                unset($selected[$key]);
-                $selected[] = $tag->id;
+        if(count($selected)>4){ //the user can select up to 4 tags
+            //do nothing
+        }else{
+            $selectedIds=[];
+            foreach($selected as $select){
+                if($tag=Tag::where('name',$select)->first()){ //already exists
+                    $selectedIds[]=$tag->id;
+                }else{
+                    $newTag=Tag::create(['name'=>$select]);
+                    $selectedIds[]=$newTag->id;
+                }
             }
+            return $selectedIds;
         }
-        return $selected;
+        return false;
     }
+
+
 }

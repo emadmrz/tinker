@@ -12,7 +12,7 @@
             <div class="media">
                 <div class="media-right media-full-image">
                     <div class="menu-object">
-                        <img class="media-object" src="{{asset('images/files/'.$article->user->id.'/'.$article->image)}}" alt="...">
+                        <img class="media-object" src="{{asset('images/files/'.$article->image)}}" alt="...">
                     </div>
                 </div>
                 <div class="media-body">
@@ -37,7 +37,7 @@
                     </li>
                     <li class="category">
                         <i class="fa fa-tags"></i>
-                        <a href="#">ابزار طراحی</a>
+                        <a href="#">{{$article->category->name}}</a>
                     </li>
                     <li class="category">
                         <i class="fa fa-user"></i>
@@ -45,7 +45,7 @@
                     </li>
                     <li class="category">
                         <i class="fa fa-comment"></i>
-                        <a href="#"><span class="num_comment">{{$num_comments}}</span> دیدگاه</a>
+                        <a href="#"><span class="num_comment">{{$article->num_comment}}</span> دیدگاه</a>
                     </li>
                 </ul>
             </div>

@@ -36,7 +36,7 @@ class User extends Authenticatable
      * get avatar attribute
      */
     public function getAvatarAttribute(){
-        if(is_null($this->attributes['image'])){
+        if(is_null($this->attributes['image']) || $this->attributes['image']==''){
             return 'user-default-avatar.jpg';
         }else{
             return $this->attributes['image'];
@@ -69,5 +69,13 @@ class User extends Authenticatable
 
     public function comments(){
         return $this->hasMany('App\Comment');
+    }
+
+    public function courses(){
+        return $this->hasMany('App\Course');
+    }
+
+    public function attachments(){
+        return $this->hasMany('App\Attachment');
     }
 }

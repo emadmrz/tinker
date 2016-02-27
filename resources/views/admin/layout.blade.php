@@ -13,16 +13,19 @@
     <title>{{$title}}</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="{{asset('admin/css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{asset('css/admin/css/bootstrap.min.css')}}" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
-    <link href="{{asset('admin/css/metisMenu.min.css')}}" rel="stylesheet">
+    <link href="{{asset('css/admin/css/metisMenu.min.css')}}" rel="stylesheet">
 
     <!-- select2 -->
     <link rel="stylesheet" href="{{asset('select2/css/select2.min.css')}}">
 
+    <!--animate.css-->
+    <link type="text/css" rel="stylesheet" href="{{asset('css/animate.css')}}">
+
     <!-- Custom CSS -->
-    <link href="{{asset('admin/css/sb-admin-2.css')}}" rel="stylesheet">
+    <link href="{{asset('css/admin/css/sb-admin-2.css')}}" rel="stylesheet">
 
 
     {{--summernote--}}
@@ -30,8 +33,8 @@
 
 
     <!-- Custom Fonts -->
-    <link href="{{asset('admin/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="{{asset('admin/css/font.css')}}">
+    <link href="{{asset('css/admin/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{asset('css/admin/css/font.css')}}">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -274,19 +277,31 @@
                         <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> داشبورد</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> آمار<span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> مقالات<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="flot.html">جداول فلوت</a>
+                                <a href="{{route('admin.article.create')}}">مقاله جدید</a>
                             </li>
                             <li>
-                                <a href="morris.html">جداول موریس</a>
+                                <a href="{{route('admin.article.index')}}">مشاهده / ویرایش</a>
                             </li>
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
                     <li>
-                        <a href="tables.html"><i class="fa fa-table fa-fw"></i> جداول</a>
+                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> دوره های آموزشی<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="{{route('admin.course.create')}}">ثبت دوره جدید</a>
+                            </li>
+                            <li>
+                                <a href="{{route('admin.course.index')}}">مشاهده / ویرایش</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                    <li>
+                        <a href="{{route('admin.category.index')}}"><i class="fa fa-table fa-fw"></i> مدیریت دسته بندی</a>
                     </li>
                     <li>
                         <a href="forms.html"><i class="fa fa-edit fa-fw"></i> فرم ها</a>
@@ -388,13 +403,13 @@
 <!-- /#wrapper -->
 
 <!-- jQuery Version 1.11.0 -->
-<script src="{{asset('admin/js/jquery-1.11.0.js')}}"></script>
+<script src="{{asset('js/admin/js/jquery-1.11.0.js')}}"></script>
 
 <!-- Bootstrap Core JavaScript -->
-<script src="{{asset('admin/js/bootstrap.min.js')}}"></script>
+<script src="{{asset('js/admin/js/bootstrap.min.js')}}"></script>
 
 <!-- Metis Menu Plugin JavaScript -->
-<script src="{{asset('admin/js/metisMenu.min.js')}}"></script>
+<script src="{{asset('js/admin/js/metisMenu.min.js')}}"></script>
 
 {{--summernote--}}
 <script src="{{asset('summernote/summernote.min.js')}}"></script>
@@ -404,10 +419,43 @@
 <script src="{{asset('select2/js/select2.min.js')}}"></script>
 <script src="{{asset('select2/js/fa.js')}}"></script>
 
-<!-- Custom Theme JavaScript -->
-<script src="{{asset('admin/js/sb-admin-2.js')}}"></script>
+<!--notify.js-->
+<script src="{{asset('js/bootstrap-notify.js')}}"></script>
 
-<script src="{{asset('admin/js/admin.js')}}"></script>
+<!-- Custom Theme JavaScript -->
+<script src="{{asset('js/admin/js/sb-admin-2.js')}}"></script>
+
+<script src="{{asset('js/admin/js/admin.js')}}"></script>
+<script>
+    $(document).ready(function(){
+        $('a[data-delete-confirm]').click(function(){
+            if (!confirm('آیا مطمئن هستید که می خواهید این رکورد را حذف نمایید ؟')) {
+                return false;
+            }
+        });
+    });
+
+    /**
+     * Created By Dara on 8/2/2016
+     * register notify messages
+     */
+    $.notifyDefaults({
+        delay: 5000,
+        timer: 100,
+        offset: {
+            x: 10,
+            y:20
+        },
+        placement: {
+            from: "bottom",
+            align: "right"
+        },
+        animate: {
+            enter: 'animated fadeInRight',
+            exit: 'animated fadeOutRight'
+        }
+    });
+</script>
 
 @yield('script')
 

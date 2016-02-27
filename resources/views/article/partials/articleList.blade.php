@@ -23,7 +23,7 @@
                             </li>
                             <li class="category">
                                 <i class="fa fa-tags"></i>
-                                <a href="#">ابزار طراحی</a>
+                                <a href="#">{{$article->category->name}}</a>
                             </li>
                         </ul>
                     </div>
@@ -31,7 +31,7 @@
                     <div class="media">
                         <div class="media-right">
                             <div class="menu-object">
-                                <img class="media-object" src="{{asset('images/files/'.$article->user->id.'/'.$article->image)}}" alt="...">
+                                <img class="media-object" src="{{asset('images/files/'.$article->image)}}" alt="...">
                             </div>
                         </div>
                         <div class="media-body">
