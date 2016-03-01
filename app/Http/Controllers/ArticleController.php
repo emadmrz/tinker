@@ -30,8 +30,11 @@ class ArticleController extends Controller
     public function show(Article $article){
         $user=$this->user;
         $comments=$article->comments;
-        return view('article.show',compact('article','user','comments'))->with([
+        $obj=$article;
+        $model='article';
+        return view('article.show',compact('article','user','comments','obj'))->with([
             'title'=>$article->title,
+            'model'=>$model
         ]);
     }
 

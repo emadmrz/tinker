@@ -183,4 +183,27 @@ class CourseController extends Controller
         }
         return false;
     }
+
+    /**
+     * Created By Dara on 28/2/2016
+     * show all course in the main site
+     */
+    public function index(){
+
+    }
+
+    /**
+     * Created By Dara on 28/2/2016
+     * show the selected course in the main site
+     */
+    public function show(Course $course){
+        $user=$this->user;
+        $obj=$course;
+        $model='course'; //use to distinct options (id of the reply button)
+        $comments=$course->comments;
+        return view('course.show',compact('course','user','comments','obj'))->with([
+            'title'=>$course->name,
+            'model'=>$model
+        ]);
+    }
 }

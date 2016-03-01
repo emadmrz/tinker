@@ -146,18 +146,33 @@ Route::group(['middleware' => 'web'], function () {
             Route::post('/{article}/comment/{comment_id}/store',['as'=>'comment.store','uses'=>'CommentController@article']);
         });
 
+        Route::group(['prefix'=>'course','as'=>'course.'],function(){
+            Route::post('/{course}/comment/{comment_id}/store',['as'=>'comment.store','uses'=>'CommentController@course']);
+        });
+
         Route::group(['prefix'=>'category','as'=>'category.'],function(){
             Route::get('/subCategory',['as'=>'change','uses'=>'CategoryController@getSubCategory']);
         });
 
         Route::group(['prefix'=>'session','as'=>'session.'],function(){
             Route::get('/{session}/attachment/{attachment}/delete',['as'=>'attachment.delete','uses'=>'SessionController@attachmentDelete']);
+            Route::post('/{session}/comment/{comment_id}/store',['as'=>'comment.store','uses'=>'CommentController@session']);
         });
     });
 
 
     Route::get('video/{videoName}',['as'=>'session.showVideo','uses'=>'SessionController@showVideo']);
     Route::get('file/{fileName}',['as'=>'session.showFile','uses'=>'SessionController@downloadAttachmentFile']);
+
+    /**
+     * Created By Dara on 28/2/2016
+     * register course and session routes in the main site
+     */
+    Route::group(['prefix'=>'course','as'=>'course.'],function(){
+        Route::get('/',['as'=>'index','uses'=>'CourseController@index']);
+        Route::get('/{course}',['as'=>'show','uses'=>'CourseController@show']);
+        Route::get('/{course}/session/{session}',['as'=>'session.show','uses'=>'SessionController@show']);
+    });
 
 
 });

@@ -30,4 +30,8 @@ class Session extends Model
     public function tags(){
         return $this->belongsToMany('App\Tag')->withTimestamps();
     }
+
+    public function comments(){
+        return $this->morphMany('App\Comment','parentable');
+    }
 }
