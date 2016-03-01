@@ -89,12 +89,12 @@
                     <ul class="media-list">
 
                         <!--each comment begins note:add reply class to li for reply style-->
-                        @include('article.partials.commentList')
+                        @include('comment.commentList')
                         <!--each comment ends-->
 
                         <!--comment form begins-->
                         @can('login')
-                        @include('article.partials.commentForm')
+                        @include('comment.commentForm')
                         @endcan
                         <!--comment form ends-->
                     </ul>

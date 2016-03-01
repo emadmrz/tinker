@@ -234,6 +234,21 @@ class SessionController extends Controller
     }
 
     /**
+     * Created By Dara on 1/3/2016
+     * show the specifies session
+     */
+    public function show(Course $course,Session $session){
+        $user=$this->user;
+        $obj=$session;
+        $model='session'; //use to distinct options (id of the reply button)
+        $comments=$session->comments;
+        return view('session.show',compact('course','session','user','comments','obj'))->with([
+            'title'=>$session->title,
+            'model'=>$model
+        ]);
+    }
+
+    /**
      * Created By Dara on 14/2/2016
      * register tags for session
      */

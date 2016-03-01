@@ -68,13 +68,49 @@ function article_comment(data,$this) {
 
 }
 
+function course_comment(data,$this) {
+    if(data.nested){//reply
+        $this.closest('li#comment-reply-form').prev('li.media.level1').after(data.newComment);
+        $this.closest('li#comment-reply-form').remove();
+
+    }else{
+        $('.comment-list').find('ul.media-list').prepend(data.newComment);
+        $('.comment-list').find('textarea[name="content"]').val('');
+    }
+
+}
+
+function session_comment(data,$this) {
+    if(data.nested){//reply
+        $this.closest('li#comment-reply-form').prev('li.media.level1').after(data.newComment);
+        $this.closest('li#comment-reply-form').remove();
+
+    }else{
+        $('.comment-list').find('ul.media-list').prepend(data.newComment);
+        $('.comment-list').find('textarea[name="content"]').val('');
+    }
+
+}
+
 $('ul.media-list').on('click', 'a.reply-button', function (e) {
     e.preventDefault();
     var $this = $(this);
-    var article_id=$this.closest('li.media').attr('data-article-value');
+    var obj_id=$this.closest('li.media').attr('data-obj-value');
     var comment_id=$this.closest('li.media').attr('data-comment-value');
     var src=$('li.media.comment-form img').attr('src');
-    var action='/ajax/article/'+article_id+'/comment/'+comment_id+'/store';
+    /*check if the button is for which part*/
+    var model=$this.attr('id'); //the id of the button that equals to the model
+    switch (model){ //check for the specified route
+        case 'course':
+            var action='/ajax/course/'+obj_id+'/comment/'+comment_id+'/store';
+            break;
+        case 'article':
+            var action='/ajax/article/'+obj_id+'/comment/'+comment_id+'/store';
+            break;
+        case 'session':
+            var action='/ajax/session/'+obj_id+'/comment/'+comment_id+'/store';
+            break;
+    }
     if ($('ul.media-list').has('li#comment-reply-form').length > 0) {
         if ($this.closest('li.media').next('li#comment-reply-form').length > 0) {
             $('li#comment-reply-form').remove();
