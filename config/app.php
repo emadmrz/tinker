@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'url' => 'http://localhost',
+    'url' => 'http://www.namamooz.com',
 
     /*
     |--------------------------------------------------------------------------
@@ -157,7 +157,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Jenssegers\Agent\AgentServiceProvider::class,
         Morilog\Jalali\JalaliServiceProvider::class,
-	Baum\Providers\BaumServiceProvider::class,
+	    Baum\Providers\BaumServiceProvider::class,
         
 
 
@@ -168,6 +168,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\ViewComposerServiceProvider::class,
 
     ],
 

@@ -30,18 +30,12 @@ class RouteServiceProvider extends ServiceProvider
     {
         //
         parent::boot($router);
-        $router->bind('article',function($value){
-            return Article::findOrFail($value);
-        });
-        $router->bind('category',function($value){
-            return Category::where('parent_id',null)->findOrFail($value);
-        });
-        $router->bind('subCategory',function($value){
-            return Category::where('depth',1)->findOrFail($value);
-        });
-        $router->bind('course',function($value){
-            return Course::findOrFail($value);
-        });
+
+        $router->model('article' , 'App\Article');
+        $router->model('category' , 'App\Category');
+        $router->model('subCategory' , 'App\Category');
+        $router->model('course' , 'App\Course');
+        $router->model('session' , 'App\Session');
     }
 
     /**

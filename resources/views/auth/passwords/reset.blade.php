@@ -22,7 +22,7 @@
                         بازیابی رمز عبور
                     </div>
                     <div class="register-image pull-left">
-                        <img src="{{asset('images/tinker2.png')}}" alt="...">
+                        {{--<img src="{{asset('img/logo/namamooz_gray.png')}}" alt="...">--}}
                     </div>
                 </div>
                 <div class="panel-body">

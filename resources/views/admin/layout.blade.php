@@ -9,39 +9,16 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <meta name="csrf-token" content="{{csrf_token()}}">
-
     <title>{{$title}}</title>
-
-    <!-- Bootstrap Core CSS -->
     <link href="{{asset('css/admin/css/bootstrap.min.css')}}" rel="stylesheet">
-
-    <!-- MetisMenu CSS -->
-    <link href="{{asset('css/admin/css/metisMenu.min.css')}}" rel="stylesheet">
-
-    <!-- select2 -->
-    <link rel="stylesheet" href="{{asset('select2/css/select2.min.css')}}">
-
-    <!--animate.css-->
-    <link type="text/css" rel="stylesheet" href="{{asset('css/animate.css')}}">
-
-    <!-- Custom CSS -->
     <link href="{{asset('css/admin/css/sb-admin-2.css')}}" rel="stylesheet">
-
-
-    {{--summernote--}}
-    <link rel="stylesheet" href="{{asset('summernote/summernote.css')}}">
-
-
-    <!-- Custom Fonts -->
-    <link href="{{asset('css/admin/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('css/admin/css/metisMenu.min.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('css/admin/css/font.css')}}">
+    <link type="text/css" rel="stylesheet" href="{{asset('css/animate.css')}}">
+    <link rel="stylesheet" href="{{asset('css/summernote/summernote.css')}}">
+    <link rel="stylesheet" href="{{asset('css/select2/select2.min.css')}}">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
 
 </head>
 
@@ -58,7 +35,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html"> مدیریت <span style="color: #ff685d">تینکر</span></a>
+            <a class="navbar-brand" href="index.html"> مدیریت <span style="color: #ff685d">نمآموز</span></a>
         </div>
         <!-- /.navbar-header -->
 
@@ -259,121 +236,8 @@
         </ul>
         <!-- /.navbar-top-links -->
 
-        <div class="navbar-default sidebar" role="navigation">
-            <div class="sidebar-nav navbar-collapse">
-                <ul class="nav" id="side-menu">
-                    <li class="sidebar-search">
-                        <div class="input-group custom-search-form">
-                            <input type="text" class="form-control" placeholder="جستجو ...">
-                                <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                        </div>
-                        <!-- /input-group -->
-                    </li>
-                    <li>
-                        <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> داشبورد</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> مقالات<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="{{route('admin.article.create')}}">مقاله جدید</a>
-                            </li>
-                            <li>
-                                <a href="{{route('admin.article.index')}}">مشاهده / ویرایش</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> دوره های آموزشی<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="{{route('admin.course.create')}}">ثبت دوره جدید</a>
-                            </li>
-                            <li>
-                                <a href="{{route('admin.course.index')}}">مشاهده / ویرایش</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
-                    <li>
-                        <a href="{{route('admin.category.index')}}"><i class="fa fa-table fa-fw"></i> مدیریت دسته بندی</a>
-                    </li>
-                    <li>
-                        <a href="forms.html"><i class="fa fa-edit fa-fw"></i> فرم ها</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-wrench fa-fw"></i> ابزارها<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="panels-wells.html">پنل</a>
-                            </li>
-                            <li>
-                                <a href="buttons.html">دکمه ها</a>
-                            </li>
-                            <li>
-                                <a href="notifications.html">پیغام ها</a>
-                            </li>
-                            <li>
-                                <a href="typography.html">نوع</a>
-                            </li>
-                            <li>
-                                <a href="grid.html">شبکه بندی</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-sitemap fa-fw"></i> منوهای تودرتو<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#">سطح دوم</a>
-                            </li>
-                            <li>
-                                <a href="#">سطح دوم</a>
-                            </li>
-                            <li>
-                                <a href="#">سطح سوم <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li>
-                                        <a href="#">سطح سوم</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">سطح سوم</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">سطح سوم</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">سطح سوم</a>
-                                    </li>
-                                </ul>
-                                <!-- /.nav-third-level -->
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
-                    <li class="active">
-                        <a href="#"><i class="fa fa-files-o fa-fw"></i> صفحات نمونه<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a class="active" href="blank.html">صفحه خالی</a>
-                            </li>
-                            <li>
-                                <a href="login.html">صفحه ورود</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
-                </ul>
-            </div>
-            <!-- /.sidebar-collapse -->
-        </div>
-        <!-- /.navbar-static-side -->
+       @include('admin.partials.aside')
+
     </nav>
 
     <!-- Page Content -->
@@ -402,30 +266,17 @@
 </div>
 <!-- /#wrapper -->
 
-<!-- jQuery Version 1.11.0 -->
-<script src="{{asset('js/admin/js/jquery-1.11.0.js')}}"></script>
-
-<!-- Bootstrap Core JavaScript -->
-<script src="{{asset('js/admin/js/bootstrap.min.js')}}"></script>
-
-<!-- Metis Menu Plugin JavaScript -->
-<script src="{{asset('js/admin/js/metisMenu.min.js')}}"></script>
-
-{{--summernote--}}
-<script src="{{asset('summernote/summernote.min.js')}}"></script>
-<script src="{{asset('summernote/summernote-fa-IR.min.js')}}"></script>
-
-<!--select2-->
-<script src="{{asset('select2/js/select2.min.js')}}"></script>
-<script src="{{asset('select2/js/fa.js')}}"></script>
-
-<!--notify.js-->
-<script src="{{asset('js/bootstrap-notify.js')}}"></script>
-
-<!-- Custom Theme JavaScript -->
+<script src="{{asset('js/jquery.js')}}"></script>
 <script src="{{asset('js/admin/js/sb-admin-2.js')}}"></script>
-
+<script src="{{asset('js/admin/js/bootstrap.min.js')}}"></script>
+<script src="{{asset('js/admin/js/metisMenu.min.js')}}"></script>
+<script src="{{asset('js/summernote/summernote.min.js')}}"></script>
+<script src="{{asset('js/summernote/summernote-fa-IR.min.js')}}"></script>
+<script src="{{asset('js/select2/select2.min.js')}}"></script>
+<script src="{{asset('js/select2/fa.js')}}"></script>
+<script src="{{asset('js/bootstrap-notify.js')}}"></script>
 <script src="{{asset('js/admin/js/admin.js')}}"></script>
+
 <script>
     $(document).ready(function(){
         $('a[data-delete-confirm]').click(function(){

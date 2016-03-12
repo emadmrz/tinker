@@ -24,6 +24,7 @@ class CreateSessionsTable extends Migration
             $table->string('duration');
             $table->string('capacity');
             $table->string('level');
+            $table->boolean('is_free')->default(0);
             $table->integer('num_like')->unsigned()->default(0);
             $table->integer('num_dislike')->unsigned()->default(0);
             $table->integer('num_comment')->unsigned()->default(0);

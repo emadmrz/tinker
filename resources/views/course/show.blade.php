@@ -1,9 +1,0 @@
-@extends('main.layout')
-@section('aside')
-    @include('course.partials.skillPanel')
-    @include('course.partials.pricePanel')
-    @include('main.partials.relatedArticles')
-@endsection
-@section('content')
-    @include('course.partials.course')
-@endsection

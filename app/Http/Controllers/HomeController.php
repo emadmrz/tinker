@@ -2,29 +2,43 @@
 
 namespace App\Http\Controllers;
 
+use App\Article;
+use App\Category;
+use App\Course;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+    private $config;
+
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->config = Config::get('general');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        return 'homePage';
+        $courses = Course::latest()->get();
+        $articles = Article::published()->active()->latest()->paginate(10);
+        return view('home.index', compact('courses', 'articles'))
+            ->with([
+                'title'=>$this->config['title'],
+                'meta_description'=>$this->config['description'],
+                'meta_keywords'=>$this->config['keywords']
+            ]);
+    }
+
+    public function category(Category $category){
+        $courses = Course::where('sub_category_id', $category->id)->latest()->get();
+        $articles = Article::where('sub_category_id', $category->id)->published()->active()->latest()->paginate(10);
+        return view('home.index', compact('courses', 'articles'))
+            ->with([
+                'title'=>$category->name,
+                'meta_description'=>$this->config['description'],
+                'meta_keywords'=>$this->config['keywords']
+            ]);
     }
 }

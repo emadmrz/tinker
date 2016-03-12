@@ -26,6 +26,7 @@ class CreateArticlesTable extends Migration
             $table->string('image');
             $table->boolean('published');
             $table->boolean('active')->default(1);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

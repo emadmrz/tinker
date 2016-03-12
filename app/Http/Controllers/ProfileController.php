@@ -22,7 +22,7 @@ class ProfileController extends Controller
     public function index()
     {
         $user = $this->user;
-        return view('profile.index', compact('user'))->with(['title' => $user->full_name]);
+        return view('home.profile', compact('user'))->with(['title' => $user->full_name]);
     }
 
     public function store(Request $request)
@@ -39,11 +39,11 @@ class ProfileController extends Controller
         if($request->hasFile('image')){
             $image=$input['image'];
             $imageName=$user->id.str_random(20).'.'.$image->getClientOriginalExtension();
-            $image->move(public_path().'/images/persons/',$imageName);
+            $image->move(public_path().'/img/persons/',$imageName);
             /* Delete the previous image */
             if($previousImage!=null){
-                if(File::exists(public_path().'/images/persons/'.$previousImage)){
-                    unlink(public_path().'/images/persons/'.$previousImage);
+                if(File::exists(public_path().'/img/persons/'.$previousImage)){
+                    unlink(public_path().'/img/persons/'.$previousImage);
                 }
             }
         }else{

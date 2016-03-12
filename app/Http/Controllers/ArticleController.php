@@ -21,51 +21,43 @@ class ArticleController extends Controller
     public function __construct(Request $request){
         $this->user=$request->user();
     }
+
     public function index()
     {
-        $articles=Article::where('published',1)->get();
-        return view('article.index',compact('articles'))->with(['title'=>'مقالات']);
+        $articles = Article::published()->latest()->paginate(15);
+        return view('article.list',compact('articles'))->with(['title'=>'مقالات نمآموز']);
     }
 
-    public function show(Article $article){
-        $user=$this->user;
-        $comments=$article->comments;
-        $obj=$article;
-        $model='article';
-        return view('article.show',compact('article','user','comments','obj'))->with([
+    public function preview(Article $article){
+        $user = $this->user;
+        return view('article.preview',compact('article','user')
+        )->with([
             'title'=>$article->title,
-            'model'=>$model
+            'meta_description'=>str_limit(strip_tags($article->content), 120, '...'),
+            'meta_keywords'=>implode(', ', $article->tags()->lists('name')->toArray())
         ]);
     }
 
-    /**
-     * Created By Dara on 6/2/2016
-     * upload image in summernote
-     */
-    public function upload(Request $request)
+    public function upload(Request $request) //add middleware of ajax and remove the if
     {
         if ($request->ajax()) {
             $user = $request->user();
             /* upload image */
             $imageName = str_random(20) . $user->id . '.' . $request->file('file')->getClientOriginalExtension();
-            $request->file('file')->move(public_path() . '/images/files/' . $user->id, $imageName);
-            return asset('images/files/' . $user->id . '/' . $imageName);
+            $request->file('file')->move(public_path() . '/img/files/' . $user->id, $imageName);
+            return asset('img/files/' . $user->id . '/' . $imageName);
         } else {
             abort(403);
         }
     }
 
-    /**
-     * Created By Dara on 6/2/2016
-     * delete image in summernote
-     */
     public function delete(Request $request)
     {
         $user = $request->user();
         $path = parse_url($request->input('src'), PHP_URL_PATH);
         $pathFragments = explode('/', $path);
         $imageName = end($pathFragments);
-        $path = public_path('images/files/' . $user->id . '/' . $imageName);
+        $path = public_path('img/files/' . $user->id . '/' . $imageName);
         if (File::exists($path)) {
             unlink($path);
         }
@@ -81,7 +73,7 @@ class ArticleController extends Controller
         foreach ($mainCategories as $key => $value) {
             $main[$key] = $value;
         }
-        return view('article.create',compact('main'))->with(['title' => 'ثبت مقاله جدید']);
+        return view('admin.article.create',compact('main'))->with(['title' => 'ثبت مقاله جدید']);
     }
 
     public function store(Request $request)
@@ -101,7 +93,7 @@ class ArticleController extends Controller
             $image = $input['image'];
             $imageName = $user->id . str_random(20) . '.' . $image->getClientOriginalExtension();
             $imageDbName=$user->id.'/'.$imageName;
-            $image->move(public_path('images/files/'.$user->id),$imageName);
+            $image->move(public_path('img/files/'.$user->id),$imageName);
         } else {
             $imageDbName = '';
         }
@@ -142,7 +134,7 @@ class ArticleController extends Controller
         $tags = $tagsQuery->lists('name','name');
         $selected = $tagsQuery->lists('name')->toArray();
 
-        return view('article.edit', compact('article', 'user', 'tags', 'selected'))->with([
+        return view('admin.article.edit', compact('article', 'user', 'tags', 'selected'))->with([
             'title' => 'ویرایش مقاله',
             'main'=>$main,
             'subCategories'=>$subCategories,
@@ -169,11 +161,11 @@ class ArticleController extends Controller
             $image = $input['image'];
             $imageName = $user->id . str_random(20) . '.' . $image->getClientOriginalExtension();
             $imageDbName = $user->id.'/'.$imageName;
-            $image->move(public_path() . '/images/files/' . $user->id, $imageName);
+            $image->move(public_path() . '/img/files/' . $user->id, $imageName);
             /* Delete the previous image */
             if ($previousImage != null) {
-                if (File::exists(public_path() . '/images/files/' . $user->id . '/' . $previousImage)) {
-                    unlink(public_path() . '/images/files/' . $user->id . '/' . $previousImage);
+                if (File::exists(public_path() . '/img/files/' . $user->id . '/' . $previousImage)) {
+                    unlink(public_path() . '/img/files/' . $user->id . '/' . $previousImage);
                 }
             }
         } else {
@@ -197,19 +189,11 @@ class ArticleController extends Controller
         return redirect()->back();
     }
 
-    /**
-     * Created By Dara on 22/2/2016
-     * show list of articles in admin panel
-     */
     public function adminIndex(){
-        $articles=Article::all();
-        return view('article.adminIndex',compact('articles'))->with(['title'=>'مقالات']);
+        $articles = Article::all();
+        return view('admin.article.list',compact('articles'))->with(['title'=>'مقالات']);
     }
 
-    /**
-     * Created By Dara on 6/2/2016
-     * register tags for article
-     */
     private function registerTags($request)
     {
         $selected = $request->input('tags');
@@ -228,6 +212,10 @@ class ArticleController extends Controller
             return $selectedIds;
         }
         return false;
+    }
+
+    public function comments(Article $article){
+        return $article;
     }
 
 

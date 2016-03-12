@@ -25,7 +25,7 @@ class EmailController extends Controller
             $user->update(['confirmation_code'=>$new_code]);
             $input=$user->toArray();
             Mail::send('emails.welcome', ['user'=>$input], function ($message)use ($input)  {
-                $message->to($input['email'])->subject('welcome to Tinker');
+                $message->to($input['email'])->subject('welcome to Namamooz');
             });
             Flash::success(trans('users.confirmationEmailResended'));
         }

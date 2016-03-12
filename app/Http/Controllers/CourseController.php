@@ -21,6 +21,11 @@ class CourseController extends Controller
         $this->user = $request->user();
     }
 
+    public function index(){
+        $courses = Course::latest()->get();
+        return view('course.list',compact('courses'))->with(['title'=>'دوره های آموزشی آنلاین']);
+    }
+
     public function create()
     {
         $mainCategories = Category::roots()->lists('name', 'id');
@@ -30,14 +35,14 @@ class CourseController extends Controller
             $main[$key] = $value;
         }
         //dd($mainCategories);
-        return view('course.create', compact('main'))->with(['title' => 'افزودن دوره آموزشی']);
+        return view('admin.course.create', compact('main'))->with(['title' => 'افزودن دوره آموزشی']);
     }
 
     public function store(Request $request)
     {
         $user = $this->user;
         $this->validate($request, [
-            'name' => 'required|min:3',
+            'title' => 'required|min:3',
             'active' => 'required|in:0,1',
             'description' => 'required|min:3',
             'sub_category_id' => 'required|integer',
@@ -51,14 +56,14 @@ class CourseController extends Controller
             $image = $input['image'];
             $imageName = $user->id . str_random(20) . '.' . $image->getClientOriginalExtension();
             $dbImageName = $user->id . '/' . $imageName;
-            $image->move(public_path() . '/images/files/' . $user->id, $imageName);
+            $image->move(public_path() . '/img/files/' . $user->id, $imageName);
         } else {
             $dbImageName = '';
         }
 
         /*create course*/
         $course = $user->courses()->create([
-            'name' => $input['name'],
+            'title' => $input['title'],
             'description' => $input['description'],
             'sub_category_id' => $input['sub_category_id'],
             'active' => $input['active'],
@@ -92,7 +97,7 @@ class CourseController extends Controller
         $tagsQuery = $course->tags();
         $tags = $tagsQuery->lists('name','name');
         $selected = $tagsQuery->lists('name')->toArray();
-        return view('course.edit', compact('course', 'main'))->with([
+        return view('admin.course.edit', compact('course', 'main'))->with([
             'title' => 'ویرایش دوره',
             'tags'=>$tags,
             'selectedTag'=>$selected,
@@ -105,7 +110,7 @@ class CourseController extends Controller
     public function update(Course $course,Request $request){
         $user = $this->user;
         $this->validate($request, [
-            'name' => 'required|min:3',
+            'title' => 'required|min:3',
             'active' => 'required|in:0,1',
             'description' => 'required|min:3',
             'sub_category_id' => 'required|integer',
@@ -119,10 +124,10 @@ class CourseController extends Controller
             $image = $input['image'];
             $imageName = $user->id . str_random(20) . '.' . $image->getClientOriginalExtension();
             $dbImageName = $user->id . '/' . $imageName;
-            $image->move(public_path() . '/images/files/' . $user->id, $imageName);
+            $image->move(public_path() . '/img/files/' . $user->id, $imageName);
             if ($previousImage != null) {
-                if (File::exists(public_path() . '/images/files/'. $previousImage)) {
-                    unlink(public_path() . '/images/files/'. $previousImage);
+                if (File::exists(public_path() . '/img/files/'. $previousImage)) {
+                    unlink(public_path() . '/img/files/'. $previousImage);
                 }
             }
         } else {
@@ -131,7 +136,7 @@ class CourseController extends Controller
 
         /*create course*/
         $course->update([
-            'name' => $input['name'],
+            'title' => $input['title'],
             'description' => $input['description'],
             'sub_category_id' => $input['sub_category_id'],
             'active' => $input['active'],
@@ -150,20 +155,12 @@ class CourseController extends Controller
         return redirect()->back();
     }
 
-    /**
-     * Created By Dara on 22/2/2016
-     * show course list in admin panel
-     */
     public function adminIndex(){
         $user=$this->user;
         $courses=Course::all();
-        return view('course.adminIndex',compact('courses'))->with(['title'=>'دوره های آموزشی']);
+        return view('admin.course.list',compact('courses'))->with(['title'=>'دوره های آموزشی']);
     }
 
-    /**
-     * Created By Dara on 14/2/2016
-     * register tags for course
-     */
     private function registerTags($request)
     {
         $selected = $request->input('tags');
@@ -184,26 +181,13 @@ class CourseController extends Controller
         return false;
     }
 
-    /**
-     * Created By Dara on 28/2/2016
-     * show all course in the main site
-     */
-    public function index(){
-
-    }
-
-    /**
-     * Created By Dara on 28/2/2016
-     * show the selected course in the main site
-     */
-    public function show(Course $course){
+    public function preview(Course $course){
         $user=$this->user;
-        $obj=$course;
-        $model='course'; //use to distinct options (id of the reply button)
-        $comments=$course->comments;
-        return view('course.show',compact('course','user','comments','obj'))->with([
-            'title'=>$course->name,
-            'model'=>$model
-        ]);
+        return view('course.preview',compact('course','user'))
+            ->with([
+                'title'=>$course->title,
+                'meta_description'=>str_limit(strip_tags($course->description), 120, '...'),
+                'meta_keywords'=>implode(', ', $course->tags()->lists('name')->toArray())
+            ]);
     }
 }

@@ -17,7 +17,7 @@ class CreateCoursesTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('sub_category_id')->unsigned();
-            $table->string('name');
+            $table->string('title');
             $table->text('description');
             $table->integer('price')->default(0);
             $table->string('image');

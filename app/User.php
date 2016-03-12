@@ -5,10 +5,11 @@ namespace App;
 
 use App\Repositories\ShamsiTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use ShamsiTrait;
+    use ShamsiTrait, HasRoles;
     /**
      * The attributes that are mass assignable.
      *
@@ -37,7 +38,7 @@ class User extends Authenticatable
      */
     public function getAvatarAttribute(){
         if(is_null($this->attributes['image']) || $this->attributes['image']==''){
-            return 'user-default-avatar.jpg';
+            return 'user-default-avatar.png';
         }else{
             return $this->attributes['image'];
         }

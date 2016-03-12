@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/test', function () {
+    return view('react');
+});
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -27,20 +31,14 @@ Route::get('/', function () {
 */
 Route::group(['middleware' => 'web'], function () {
 
-    Route::get('/home','HomeController@index');
+    Route::get('/',['as'=>'index','uses'=>'HomeController@index']);
 
-    /*
-     * Created By Dara on 1/2/2016
-     * Email Confirmation routes
-     */
+    Route::get('category/{category}',['as'=>'category','uses'=>'HomeController@category']);
+
     Route::get('email',['middleware'=>'auth','uses'=>'Auth\EmailController@index']);
     Route::post('email',['middleware'=>'auth','uses'=>'Auth\EmailController@resend']);
     Route::get('email/{confirmation_code}','Auth\EmailController@check');
 
-    /*
-     * Created By Dara on 31/1/2016
-     * Login & Register routes
-     */
     Route::get('register','Auth\AuthController@getRegister');
     Route::post('register','Auth\AuthController@register');
     Route::get('login','Auth\AuthController@getLogin');
@@ -50,34 +48,16 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('password/reset','Auth\PasswordController@reset');
     Route::get('password/reset/{token?}','Auth\PasswordController@showResetForm');
 
-    /*
-     * Created By Dara on 1/2/2016
-     * Site Main page
-     */
-    Route::get('/',['as'=>'index','uses'=>'IndexController@index']);
 
-    /*
-     * Created By Dara on 1/2/2016
-     * user profile management
-     */
     Route::group(['prefix'=>'profile','as'=>'profile.','middleware'=>['auth','email']],function(){
         Route::get('/',['as'=>'me','uses'=>'ProfileController@index']);
         Route::post('/store',['as'=>'store','uses'=>'ProfileController@store']);
     });
 
-    /**
-     * Created By Dara on 4/2/2016
-     * Admin routes
-     */
-    Route::group(['prefix'=>'admin','as'=>'admin.'],function(){
+    Route::group(['prefix'=>'admin','as'=>'admin.', 'middleware'=>['auth']],function(){
+
         Route::get('/',['as'=>'index','uses'=>'Admin\AdminController@index']);
 
-
-
-        /**
-         * Created By Dara on 4/2/2016
-         * Article management (admin) add/edit
-         */
         Route::group(['prefix'=>'article','as'=>'article.'],function(){
             Route::get('index',['as'=>'index','uses'=>'ArticleController@adminIndex']);
             Route::get('create',['as'=>'create','uses'=>'ArticleController@create']);
@@ -88,10 +68,6 @@ Route::group(['middleware' => 'web'], function () {
             Route::post('edit/{article}',['as'=>'update','uses'=>'ArticleController@update']);
         });
 
-        /**
-         * Created By Dara on 14/2/2016
-         * category management
-         */
         Route::group(['prefix'=>'category','as'=>'category.'],function(){
             Route::get('/',['as'=>'index','uses'=>'CategoryController@index']);
             Route::post('/store',['as'=>'store','uses'=>'CategoryController@store']);
@@ -106,10 +82,6 @@ Route::group(['middleware' => 'web'], function () {
             Route::put('/{category}/subCategory/{subCategory}/update',['as'=>'subCategory.update','uses'=>'CategoryController@subCategoryUpdate']);
         });
 
-        /**
-         * Created By Dara on 14/2/2016
-         * course management
-         */
         Route::group(['prefix'=>'course','as'=>'course.'],function(){
             Route::get('index',['as'=>'index','uses'=>'CourseController@adminIndex']);
             Route::get('create',['as'=>'create','uses'=>'CourseController@create']);
@@ -123,23 +95,15 @@ Route::group(['middleware' => 'web'], function () {
             Route::post('/{course}/session/{session}/update',['as'=>'session.update','uses'=>'SessionController@update']);
         });
 
-
-
-
     });
-    /**
-     * Created By Dara on 6/2/2015
-     * Article management (main) show
-     */
+
     Route::group(['prefix'=>'article','as'=>'article.'],function(){
         Route::get('/',['as'=>'index','uses'=>'ArticleController@index']);
-        Route::get('/{article}',['as'=>'show','uses'=>'ArticleController@show']);
+        Route::get('/{article}',['as'=>'preview','uses'=>'ArticleController@preview']);
+        Route::get('comments/{article}',['as'=>'show','uses'=>'ArticleController@comments']);
     });
 
-    /**
-     * Created By Dara on 10/2/2016
-     * ajax requests on submit
-     */
+
     Route::group(['prefix'=>'ajax','as'=>'ajax.','middleware'=>['ajax','auth']],function(){
 
         Route::group(['prefix'=>'article','as'=>'article.'],function(){
@@ -164,14 +128,11 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('video/{videoName}',['as'=>'session.showVideo','uses'=>'SessionController@showVideo']);
     Route::get('file/{fileName}',['as'=>'session.showFile','uses'=>'SessionController@downloadAttachmentFile']);
 
-    /**
-     * Created By Dara on 28/2/2016
-     * register course and session routes in the main site
-     */
+
     Route::group(['prefix'=>'course','as'=>'course.'],function(){
         Route::get('/',['as'=>'index','uses'=>'CourseController@index']);
-        Route::get('/{course}',['as'=>'show','uses'=>'CourseController@show']);
-        Route::get('/{course}/session/{session}',['as'=>'session.show','uses'=>'SessionController@show']);
+        Route::get('/{course}',['as'=>'preview','uses'=>'CourseController@preview']);
+        Route::get('/{course}/session/{session}',['as'=>'session.preview','uses'=>'SessionController@preview']);
     });
 
 

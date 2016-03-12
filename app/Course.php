@@ -12,7 +12,7 @@ class Course extends Model
 
     protected $fillable=[
         'user_id',
-        'name',
+        'title',
         'description',
         'price',
         'image',
@@ -42,6 +42,14 @@ class Course extends Model
 
     public function category(){
         return $this->belongsTo('App\Category','sub_category_id');
+    }
+
+    public function getHumanPriceAttribute(){
+        if($this->attributes['price'] > 0){
+            return number_format($this->attributes['price']).' تومان ';
+        }else{
+            return 'رایگان';
+        }
     }
 
 }

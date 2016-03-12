@@ -99,7 +99,7 @@ class SessionController extends Controller
         $tagsQuery = $session->tags();
         $tags = $tagsQuery->lists('name','name');
         $selected = $tagsQuery->lists('name')->toArray();
-        return view('session.edit',compact('course','session'))->with([
+        return view('admin.session.edit',compact('course','session'))->with([
             'title'=>'ویرایش جلسه',
             'tags'=>$tags,
             'selected'=>$selected
@@ -230,21 +230,16 @@ class SessionController extends Controller
      */
     public function adminIndex(Course $course){
         $sessions=$course->sessions()->get();
-        return view('session.adminIndex',compact('sessions','course'))->with(['title'=>"جلسات $course->name"]);
+        return view('admin.session.list',compact('sessions','course'))->with(['title'=>"جلسات $course->name"]);
     }
 
-    /**
-     * Created By Dara on 1/3/2016
-     * show the specifies session
-     */
-    public function show(Course $course,Session $session){
+
+    public function preview(Course $course,Session $session){
         $user=$this->user;
-        $obj=$session;
-        $model='session'; //use to distinct options (id of the reply button)
-        $comments=$session->comments;
-        return view('session.show',compact('course','session','user','comments','obj'))->with([
+        return view('session.preview',compact('course','session','user'))->with([
             'title'=>$session->title,
-            'model'=>$model
+            'meta_description'=>str_limit(strip_tags($session->description), 120, '...'),
+            'meta_keywords'=>implode(', ', $session->tags()->lists('name')->toArray())
         ]);
     }
 

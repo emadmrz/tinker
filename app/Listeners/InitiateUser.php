@@ -32,8 +32,8 @@ class InitiateUser
         File::makeDirectory(public_path().'/images/files/'.$user->id,0775,true,true);
         /*Send Email to the Registered User*/
         Mail::send('emails.welcome',['user'=>$user],function($msg) use ($user){
-            $msg->from('dara51php@gmail.com','Tinker');
-            $msg->to($user['email'],$user->full_name)->subject('Welcome To Tinker');
+            $msg->from('info@namamooz.com','Namamooz');
+            $msg->to($user['email'],$user->full_name)->subject('Welcome To Namamooz');
         });
 
     }

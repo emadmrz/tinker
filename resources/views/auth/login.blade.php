@@ -1,18 +1,18 @@
 @extends('auth.layout')
 @section('title')
-    ورود به تینکر
+    ورود به نمآموز
 @endsection
 @section('content')
-    <div class="col-sm-7 center-block register-container">
+    <div class="col-sm-9 center-block register-container" style="margin-top: 40px">
         <div class="register-panel">
             <div class="panel panel-default">
                 <div class="panel-heading text-right">
                     <div class="register-title">
                         <span class="glyphicon glyphicon-user fa-lg"></span>
-                        ورود به سایت
+                        <b>                        ورود به سایت </b>
                     </div>
                     <div class="register-image pull-left">
-                        <img src="{{asset('images/tinker2.png')}}" alt="...">
+                        <img src="{{asset('img/logo/namamooz_gray.png')}}" alt="...">
                     </div>
                 </div>
                 <div class="panel-body">
@@ -28,25 +28,25 @@
                         </div>
                     @endif
 
-                    <div class="col-sm-8">
+                    <div class="col-sm-10 pull-right">
                         <div class="direct-login">
                             {!! Form::open(['class'=>'form-horizontal','role'=>'form','action'=>'Auth\AuthController@login']) !!}
                                 <div class="form-group @if($errors->has('email')) has-error @endif">
-                                    <label for="email" class="col-sm-3 control-label">ایمیل :</label>
+                                    <label for="email" class="col-sm-4 control-label pull-right">ایمیل :</label>
 
-                                    <div class="col-sm-9">
+                                    <div class="col-sm-12 pull-right">
                                         <input type="email" name="email" class="form-control" id="email" value="{{old('email')}}">
                                     </div>
                                 </div>
                                 <div class="form-group @if($errors->has('password')) has-error @endif">
-                                    <label for="password" class="col-sm-3 control-label">کلمه عبور :</label>
+                                    <label for="password" class="col-sm-4 control-label pull-right">کلمه عبور :</label>
 
-                                    <div class="col-sm-9">
+                                    <div class="col-sm-12 pull-right">
                                         <input type="password" name="password" class="form-control" id="password">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <div class="col-xs-8">
+                                    <div class="col-xs-16 pull-right">
                                         <div class="checkbox checkbox-success">
                                             <input name="remember" id="remember" type="checkbox">
                                             <label for="remember">
@@ -60,7 +60,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-4">
+                    <div class="col-sm-6 pull-right">
                         <h4 class="text-center" >ورود با</h4>
                         <div class="social-login center-block">
 
