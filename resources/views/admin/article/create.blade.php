@@ -21,7 +21,7 @@
                             </div>
                             <div class="form-group">
                                 <label>دسته بندی فرعی</label>
-                                {!! Form::select('sub_category_id', [], null, ['class'=>'form-control select-status','id'=>'subCategory']) !!}
+                                {!! Form::select('categories[]', [], null, ['id'=>'categories_select','class'=>'form-control','multiple']) !!}
                             </div>
                             <div class="form-group">
                                 <label for="image">درج تصویر</label>

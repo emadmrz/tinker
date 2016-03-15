@@ -8,7 +8,6 @@
                 <th>عنوان</th>
                 <th>نویسنده</th>
                 <th>دسته بندی اصلی</th>
-                <th>دسته بندی فرعی</th>
                 <th>وضعیت</th>
                 <th>تاریخ انتشار</th>
                 <th>عملیات</th>
@@ -20,8 +19,7 @@
                     <td>{{$key+1}}</td>
                     <td>{{$article->title}}</td>
                     <td>{{$article->user->full_name}}</td>
-                    <td>{{$article->category->parent->name}}</td>
-                    <td>{{$article->category->name}}</td>
+                    <td>{{$article->categories()->first()->parent->name}}</td>
                     <td>
                         @if($article->published)
                             <label class="label-success label" for="">منتشر شده</label>
@@ -36,7 +34,7 @@
                     </td>
                     <td>{{$article->shamsi_created_at}}</td>
                     <td>
-                        <a href="{{route('article.show',$article->id)}}" class="btn btn-primary btn-sm">نمایش</a>
+                        <a href="{{route('article.preview',$article->id)}}" class="btn btn-primary btn-sm">نمایش</a>
                         <a href="{{route('admin.article.edit',$article->id)}}" class="btn btn-info btn-sm">ویرایش</a>
                         <a data-delete-confirm href="" class="btn btn-danger btn-sm">حذف</a>
                     </td>

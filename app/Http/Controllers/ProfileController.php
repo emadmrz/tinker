@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -53,9 +54,27 @@ class ProfileController extends Controller
         $user->update([
             'first_name'=>$input['first_name'],
             'last_name'=>$input['last_name'],
+            'description'=>$input['description'],
             'image'=>$imageName
         ]);
         Flash::success(trans('users.profileUpdated'));
         return redirect()->back();
+    }
+
+    /**
+     * Created By Dara on 13/3/2016
+     * show profile to public
+     */
+    public function publicShow(User $profile){
+        $articlesQuery=$profile->articles()->published()->active()->orderBy('created_at','DESC');
+        $articles=$articlesQuery->paginate(10);
+        $latestArticles=$articlesQuery->take(10)->get();
+        $latestSessions=$profile->sessions()->latest()->active()->take(10)->get();
+        $courses=$profile->courses()->orderBy('created_at','DESC')->get();
+        return view('profile.index',compact('profile','articles','courses'))->with([
+            'title'=>$profile->full_name,
+            'latestArticles'=>$latestArticles,
+            'latestSessions'=>$latestSessions
+        ]);
     }
 }

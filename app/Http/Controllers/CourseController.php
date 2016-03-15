@@ -45,7 +45,7 @@ class CourseController extends Controller
             'title' => 'required|min:3',
             'active' => 'required|in:0,1',
             'description' => 'required|min:3',
-            'sub_category_id' => 'required|integer',
+            'categories.*' => 'integer',
             'price' => 'required|integer',
             'image' => 'mimes:jpeg,bmp,png,jpg|max:1024',
             'tags.*'=>'min:2|max:30'
@@ -65,11 +65,17 @@ class CourseController extends Controller
         $course = $user->courses()->create([
             'title' => $input['title'],
             'description' => $input['description'],
-            'sub_category_id' => $input['sub_category_id'],
             'active' => $input['active'],
             'price' => $input['price'],
             'image' => $dbImageName
         ]);
+
+        /*register subCategories*/
+        $selectedCategories=$this->registerSubCategories($request);
+        if(!$selectedCategories){//if the selected tags has error
+            return redirect()->back();
+        }
+        $course->categories()->sync($selectedCategories);
 
         /*register tags*/
         $selected = $this->registerTags($request);
@@ -91,19 +97,21 @@ class CourseController extends Controller
         foreach ($mainCategories as $key => $value) {
             $main[$key] = $value;
         }
-        $subCategory=Category::findOrFail($course->sub_category_id);
-        $subCategories=$subCategory->siblingsAndSelf()->lists('name','id');
-        $selectedMainCategory=$subCategory->getAncestors()->first()->id;
+
+        $subCategoriesQuery=$course->categories();
+        $subCategories=$subCategoriesQuery->lists('name','id');
+        //dd($subCategories);
+        $selectedMainCategory=$subCategoriesQuery->getParent()->id;
         $tagsQuery = $course->tags();
         $tags = $tagsQuery->lists('name','name');
         $selected = $tagsQuery->lists('name')->toArray();
-        return view('admin.course.edit', compact('course', 'main'))->with([
+
+        return view('admin.course.edit', compact('course', 'user', 'tags', 'selected'))->with([
             'title' => 'ویرایش دوره',
-            'tags'=>$tags,
-            'selectedTag'=>$selected,
-            'selectedSubCategory'=>$subCategory->id,
+            'main'=>$main,
+            'subCategories'=>$subCategories,
             'selectedMainCategory'=>$selectedMainCategory,
-            'subCategories'=>$subCategories
+            'selectedSubCategories'=>$subCategoriesQuery->lists('id')->toArray()
         ]);
     }
 
@@ -113,7 +121,7 @@ class CourseController extends Controller
             'title' => 'required|min:3',
             'active' => 'required|in:0,1',
             'description' => 'required|min:3',
-            'sub_category_id' => 'required|integer',
+            'categories.*' => 'integer',
             'price' => 'required|integer',
             'image' => 'mimes:jpeg,bmp,png,jpg|max:1024'
         ]);
@@ -138,11 +146,17 @@ class CourseController extends Controller
         $course->update([
             'title' => $input['title'],
             'description' => $input['description'],
-            'sub_category_id' => $input['sub_category_id'],
             'active' => $input['active'],
             'price' => $input['price'],
             'image' => $dbImageName
         ]);
+
+        /*register subCategories*/
+        $selectedCategories=$this->registerSubCategories($request);
+        if(!$selectedCategories){//if the selected tags has error
+            return redirect()->back();
+        }
+        $course->categories()->sync($selectedCategories);
 
         /*register tags*/
         $selected = $this->registerTags($request);
@@ -177,6 +191,20 @@ class CourseController extends Controller
                 }
             }
             return $selectedIds;
+        }
+        return false;
+    }
+
+    /**
+     * Created By Dara on 14/3/2016
+     * register subCategories
+     */
+    private function registerSubCategories($request){
+        $selected = $request->input('categories');
+        if(count($selected)>4){ //the user can select up to 4 tags
+            //do nothing
+        }else{
+            return $selected;
         }
         return false;
     }

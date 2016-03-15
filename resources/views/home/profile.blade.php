@@ -74,6 +74,15 @@
                         <input name="image" id="image" type="file" class="">
                     </div>
 
+
+
+                </div>
+
+                <div class="col-sm-12 pull-right">
+                    <div class="form-group">
+                        <label for="description" class="control-label">توضیحات</label>
+                        {!! Form::textarea('description',null,['class'=>'form-control','id'=>'description','rows'=>4]) !!}
+                    </div>
                 </div>
             </div>
 

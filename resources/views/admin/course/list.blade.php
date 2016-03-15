@@ -9,7 +9,6 @@
                 <th>نویسنده</th>
                 <th>هزینه دوره (تومان)</th>
                 <th>دسته بندی اصلی</th>
-                <th>دسته بندی فرعی</th>
                 <th>وضعیت</th>
                 <th>تاریخ انتشار</th>
                 <th>عملیات</th>
@@ -22,8 +21,7 @@
                     <td>{{$course->title}}</td>
                     <td>{{$course->user->full_name}}</td>
                     <td>{{$course->price}}</td>
-                    <td>{{$course->category->parent->name}}</td>
-                    <td>{{$course->category->name}}</td>
+                    <td>{{$course->categories()->first()->parent->name}}</td>
                     <td>
                         @if($course->active)
                             <label class="label-success label" for="">فعال</label>

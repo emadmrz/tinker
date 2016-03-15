@@ -12,11 +12,11 @@ class Category extends Node
     protected $fillable=['name'];
 
     public function courses(){
-        return $this->hasMany('App\Course','sub_category_id','id');
+        return $this->belongsToMany('App\Course');
     }
 
     public function articles(){
-        return $this->hasMany('App\Article','sub_category_id','id');
+        return $this->belongsToMany('App\Article');
     }
 
 }

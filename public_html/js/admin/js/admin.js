@@ -26,11 +26,52 @@ $(document).ready(function () {
 
 
     });
+
+    $('select#mainCategory').change(function(){
+
+        var $this=$(this);
+        if($this.val!=0){
+            $.ajax({
+                type:'get',
+                url:"/ajax/category/subCategory",
+                data:{category_id:$this.val()},
+
+                beforeSend:function(){
+
+                },
+                complete:function(){
+
+                },
+                success:function(data){
+                    var $select = $("select#categories_select");
+                    $select.select2("val",'');
+                    $select.empty();
+                    $(data).each(function (key, value) {
+                        var $option = $("<option/>").attr("value", value.id).text(value.name);
+                        $select.append($option);
+                    });
+                },
+                error:function(xhr){
+                    alert("An error occured: " + xhr.status + " " + xhr.statusText);
+                }
+            })
+        }
+
+
+    });
+
     $('#tags_select').select2({
         tags: "true",
         placeholder: "کلمات کلیدی",
         dir:'rtl',
-        minimumResultsForSearch: Infinity,
+        language:'fa',
+        maximumSelectionLength: 4
+        /*data:[{id:1,text:'reza'}]*/
+    });
+
+    $('#categories_select').select2({
+        placeholder: "دسته بندی",
+        dir:'rtl',
         language:'fa',
         maximumSelectionLength: 4
     });
@@ -42,7 +83,7 @@ $(document).ready(function () {
      * Created By Dara on 14/2/2016
      * fill the subCategory select box on when main category selected
      */
-    $('select#mainCategory').change(function(){
+    /*$('select#mainCategory').change(function(){
         var $this=$(this);
         if($this.val!=0){
             $.ajax({
@@ -71,7 +112,7 @@ $(document).ready(function () {
                 }
             })
         }
-    });
+    });*/
 
     /**
      * Created By Dara on 21/2/2016

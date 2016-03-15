@@ -40,8 +40,8 @@ class Course extends Model
         return $this->morphMany('App\Comment','parentable');
     }
 
-    public function category(){
-        return $this->belongsTo('App\Category','sub_category_id');
+    public function categories(){
+        return $this->belongsToMany('App\Category');
     }
 
     public function getHumanPriceAttribute(){

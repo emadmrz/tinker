@@ -79,11 +79,12 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         $user = $this->user;
+        //dd($request->all());
         $this->validate($request, [
             'title' => 'required|min:3',
             'published' => 'required|in:0,1',
             'content' => 'required|min:3',
-            'sub_category_id' => 'required|integer',
+            'categories.*' => 'integer|min:1',
             'image' => 'mimes:jpeg,bmp,png,jpg|max:1024',
             'tags.*'=>'string|max:30|min:2',
         ]);
@@ -104,15 +105,21 @@ class ArticleController extends Controller
             'content' => $input['content'],
             'published' => $input['published'],
             'image' => $imageDbName,
-            'sub_category_id'=>$request->input('sub_category_id')
         ]);
 
-        /*register tags*/
-        $selected = $this->registerTags($request);
-        if(!$selected){//if the selected tags has error
+        /*register subCategories*/
+        $selectedCategories=$this->registerSubCategories($request);
+        if(!$selectedCategories){//if the selected tags has error
             return redirect()->back();
         }
-        $article->tags()->sync($selected);
+        $article->categories()->sync($selectedCategories);
+
+        /*register tags*/
+        $selectedTags = $this->registerTags($request);
+        if(!$selectedTags){//if the selected tags has error
+            return redirect()->back();
+        }
+        $article->tags()->sync($selectedTags);
 
         Flash::success(trans('users.articleCreated'));
         return redirect()->back();
@@ -127,9 +134,10 @@ class ArticleController extends Controller
         foreach ($mainCategories as $key => $value) {
             $main[$key] = $value;
         }
-        $subCategory=Category::findOrFail($article->sub_category_id);
-        $subCategories=$subCategory->siblingsAndSelf()->lists('name','id');
-        $selectedMainCategory=$subCategory->getAncestors()->first()->id;
+        $subCategoriesQuery=$article->categories();
+        $subCategories=$subCategoriesQuery->lists('name','id');
+        //dd($subCategories);
+        $selectedMainCategory=$subCategoriesQuery->getParent()->id;
         $tagsQuery = $article->tags();
         $tags = $tagsQuery->lists('name','name');
         $selected = $tagsQuery->lists('name')->toArray();
@@ -139,20 +147,21 @@ class ArticleController extends Controller
             'main'=>$main,
             'subCategories'=>$subCategories,
             'selectedMainCategory'=>$selectedMainCategory,
-            'selectedSubCategory'=>$subCategory->id,
+            'selectedSubCategories'=>$subCategoriesQuery->lists('id')->toArray()
         ]);
     }
 
     public function update(Article $article, Request $request)
     {
         $user = $this->user;
+        //dd($request->all());
         $this->validate($request, [
             'title' => 'required|min:3',
             'published' => 'required|in:0,1',
             'content' => 'required|min:3',
             'image' => 'mimes:jpeg,bmp,png,jpg|max:1024',
             'tags.*'=>'min:2|max:30',
-            'sub_category_id'=>'required|integer'
+            'categories.*'=>'integer'
         ]);
         $input = $request->all();
         $previousImage = $article->image;
@@ -178,8 +187,14 @@ class ArticleController extends Controller
             'content' => $input['content'],
             'published' => $input['published'],
             'image' => $imageDbName,
-            'sub_category_id'=>$input['sub_category_id']
         ]);
+
+        /*register subCategories*/
+        $selectedCategories=$this->registerSubCategories($request);
+        if(!$selectedCategories){//if the selected tags has error
+            return redirect()->back();
+        }
+        $article->categories()->sync($selectedCategories);
 
         /*register tags*/
         $selected = $this->registerTags($request);
@@ -210,6 +225,20 @@ class ArticleController extends Controller
                 }
             }
             return $selectedIds;
+        }
+        return false;
+    }
+
+    /**
+     * Created By Dara on 14/3/2016
+     * register subCategories
+     */
+    private function registerSubCategories($request){
+        $selected = $request->input('categories');
+        if(count($selected)>4){ //the user can select up to 4 tags
+            //do nothing
+        }else{
+            return $selected;
         }
         return false;
     }

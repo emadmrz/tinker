@@ -1,5 +1,4 @@
 /vendor
 .idea
 .env
-/public/images/files
-/public/video/
+/public_html/img/files

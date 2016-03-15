@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'first_name','last_name','active','confirmed','confirmation_code','image', 'email', 'password',
+        'first_name','last_name','active','confirmed','confirmation_code','image', 'email', 'password','description'
     ];
 
     /**
@@ -78,5 +78,9 @@ class User extends Authenticatable
 
     public function attachments(){
         return $this->hasMany('App\Attachment');
+    }
+
+    public function sessions(){
+        return $this->hasMany('App\Session');
     }
 }
