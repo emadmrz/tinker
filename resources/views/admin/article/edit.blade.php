@@ -20,13 +20,13 @@
                             </div>
                             <div class="form-group">
                                 <label>دسته بندی فرعی</label>
-                                {!! Form::select('sub_category_id', $subCategories, $selectedSubCategory, ['class'=>'form-control select-status','id'=>'subCategory']) !!}
+                                {!! Form::select('categories[]', $subCategories, $selectedSubCategories, ['id'=>'categories_select','class'=>'form-control','multiple']) !!}
                             </div>
                             <div class="form-group">
                                 <label for="image">درج تصویر</label>
                                 <input class="form-control" id="image" name="image" type="file">
                                 @if($article->image)
-                                    <img style="max-width: 50%;" src="{{asset('images/files/'.$user->id.'/'.$article->image)}}" alt="">
+                                    <img style="max-width: 50%;" src="{{asset('img/files/'.$article->image)}}" alt="">
                                 @else
                                     <h5 class="alert alert-info">تصویری برای نمایش وجود ندارد</h5>
                                 @endif

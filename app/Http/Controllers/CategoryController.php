@@ -118,10 +118,12 @@ class CategoryController extends Controller
 
     /**
      * Created By Dara on 14/2/2046
-     * get the sub category via ajax when main category chenges
+     * get the sub category via ajax when main category changes
      */
     public function getSubCategory(Request $request){
         $category_id=intval($request->input('category_id'));
-        return Category::where('id',$category_id)->first()->getDescendants()->lists('name','id');
+        $categories=Category::where('id',$category_id)->first()->getDescendants();
+        //dd($categories);
+        return $categories;
     }
 }

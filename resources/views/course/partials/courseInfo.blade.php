@@ -27,11 +27,11 @@
     <div class="panel-body">
         <div class="text-right">
             <h5>{{ $course->title }}</h5>
-            <p class="text-muted">{{ $course->description }}</p>
+            <p class="text-muted">{{ str_limit($course->description,20,'...') }}</p>
         </div>
         <div class="text-right attributes">
             <ul>
-                <li class="text-muted" ><i class="glyphicon glyphicon-user"></i> مدرس : <a href="#">{{ $course->user->fullname }}</a></li>
+                <li class="text-muted" ><i class="glyphicon glyphicon-user"></i> مدرس : <a href="{{route('home.profile.show',$course->user->id)}}">{{ $course->user->fullname }}</a></li>
                 <li class="text-muted" ><i class="glyphicon glyphicon-list"></i> جلسات :  <span>{{ $course->sessions->count() }}</span> جلسه </li>
                 <li class="text-muted" ><i class="glyphicon glyphicon-time"></i> مدت : <span>{{ $course->sessions->count() }}</span> ساعت </li>
                 <li class="text-muted" ><i class="glyphicon glyphicon-shopping-cart"></i> قیمت : <span>{{ $course->human_price }}</span></li>

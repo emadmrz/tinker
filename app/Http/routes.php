@@ -99,7 +99,7 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::group(['prefix'=>'article','as'=>'article.'],function(){
         Route::get('/',['as'=>'index','uses'=>'ArticleController@index']);
-        Route::get('/{article}',['as'=>'preview','uses'=>'ArticleController@preview']);
+        Route::get('/{article}/{title?}',['as'=>'preview','uses'=>'ArticleController@preview']);
         Route::get('comments/{article}',['as'=>'show','uses'=>'ArticleController@comments']);
     });
 
@@ -134,6 +134,16 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/{course}',['as'=>'preview','uses'=>'CourseController@preview']);
         Route::get('/{course}/session/{session}',['as'=>'session.preview','uses'=>'SessionController@preview']);
     });
+
+    /**
+     * Created By Dara on 13/3/2016
+     * show profile (public) routes
+     */
+    Route::group(['prefix'=>'home','as'=>'home.'],function(){
+        Route::get('profile/{profile}',['as'=>'profile.show','uses'=>'ProfileController@publicShow']);
+    });
+
+
 
 
 });

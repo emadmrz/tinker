@@ -16,7 +16,6 @@ class CreateCoursesTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->integer('sub_category_id')->unsigned();
             $table->string('title');
             $table->text('description');
             $table->integer('price')->default(0);
@@ -38,6 +37,13 @@ class CreateCoursesTable extends Migration
 
         });
 
+        Schema::create('category_course',function(Blueprint $table){
+            $table->integer('course_id')->unsigned()->index();
+            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
+            $table->integer('category_id')->unsigned()->index();
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+        });
+
     }
 
     /**
@@ -47,6 +53,7 @@ class CreateCoursesTable extends Migration
      */
     public function down()
     {
+        Schema::drop('category_course');
         Schema::drop('course_tag');
         Schema::drop('courses');
     }

@@ -36,6 +36,7 @@ class RouteServiceProvider extends ServiceProvider
         $router->model('subCategory' , 'App\Category');
         $router->model('course' , 'App\Course');
         $router->model('session' , 'App\Session');
+        $router->model('profile' , 'App\User');
     }
 
     /**
